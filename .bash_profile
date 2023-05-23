@@ -1,0 +1,41 @@
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Source aliases configuration file 
+if [ -f ~/.bash_aliases ]; then
+	. ~/.bash_aliases
+fi
+
+# History configurations
+shopt -s histappend
+HISTCONTROL=ignoredups
+export HISTIGNORE="&:ls:ll:la:l:lsd:[bf]g:exit:clear:history"
+
+# More bash optional configurations
+shopt -s cmdhist
+shopt -s cdspell
+shopt -s checkwinsize
+set -o noclobber            # if you need, use this: >| filename
+unset safe_term match_lhs
+
+# Vi command line [ESC], Vim command Editor [ESC+v]
+set -o vi
+export EDITOR="/usr/bin/vi"
+
+# change to parents, ex: 'up 2'
+up() { cd $(eval printf '../'%.0s {1..$1}); }
+
+# Colors for prompt
+GREEN="\[$(tput setaf 2)\]"
+CYAN="\[$(tput setaf 6)\]"
+RESET="\[$(tput sgr0)\]"
+
+# Prompt configuration
+PS1="[\u@\h ${CYAN}\W${RESET} \$?]${GREEN}\$${RESET} "
+PS2="> "
+PS3="> "
+PS4="+ "
+
+# Use bash-completion, if available
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
