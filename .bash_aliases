@@ -7,3 +7,7 @@ alias la='ls -A'
 alias l='ls -CFlh'
 alias diskspace='du -Sh | sort -n -r | more'
 alias orphans='[[ -n $(pacman -Qdt) ]] && sudo pacman -Rs $(pacman -Qdtq) || echo "No orphans to remove"'
+
+function pdvi {
+	latex "$1.tex" >/dev/null ; dvipdfm "$1.dvi" >/dev/null ; rm *.aux *.log
+}

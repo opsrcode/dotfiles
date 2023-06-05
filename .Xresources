@@ -9,8 +9,8 @@ xterm*foreground:	#999999
 xterm*cursorColor:	#999999
 xterm*cursorBlink:	false
 
-xterm*faceName:	Terminus
-xterm*faceSize:	14
+xterm*faceName:	DejaVuSansM Nerd Font Mono
+xterm*faceSize:	11
 xterm*allowBoldFonts:	true
 
 xterm*loginShell:	true

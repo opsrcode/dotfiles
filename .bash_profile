@@ -1,3 +1,7 @@
+export PATH="$PATH:/usr/local/texlive/2023/bin/x86_64-linux"
+export MANPATH="$MANPATH:/usr/local/texlive/2023/texmf-dist/doc/man"
+export INFOPATH="$INFOPATH:/usr/local/texlive/2023/texmf-dist/doc/info"
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -26,12 +30,11 @@ export EDITOR="/usr/bin/vi"
 up() { cd $(eval printf '../'%.0s {1..$1}); }
 
 # Colors for prompt
-GREEN="\[$(tput setaf 2)\]"
 CYAN="\[$(tput setaf 6)\]"
 RESET="\[$(tput sgr0)\]"
 
 # Prompt configuration
-PS1="[\u@\h ${CYAN}\W${RESET} \$?]${GREEN}\$${RESET} "
+PS1="[\u@\h ${CYAN}\W${RESET} \$?]${CYAN}\$${RESET} "
 PS2="> "
 PS3="> "
 PS4="+ "
