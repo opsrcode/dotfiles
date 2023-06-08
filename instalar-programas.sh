@@ -11,7 +11,7 @@ sudo pacman -Syyuu
 sudo pacman -S man man-pages texinfo qutebrowser firefox ufw ctags cscope\
 	cmake fzf git nasm gdb bash-completion ttf-dejavu-nerd dex xss-lock\
 	notification-daemon brightnessctl powertop tlp tlp-rdw p7zip wget\
-	lib32-libltdl
+	lib32-libltdl lib32-gcc-libs
 
 # Configuração ufw
 sudo ufw default deny incoming; sudo systemctl enable ufw
