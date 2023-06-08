@@ -1,9 +1,0 @@
-# Instalação com Pacman
-Man, Man-pages, TexInfo, Qutebrowser, Ctags,
-Git, Cscope, Cmake, FzF, Nasm, GDB
-
-# Compilação do código fonte
-YAY, Auto-cpufreq, LaTeX (texlive), VIM
-
-# Instalação com YAY
-Sioyek, Chromium-widevine (qutebrowser), VI
