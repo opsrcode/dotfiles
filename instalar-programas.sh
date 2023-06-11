@@ -11,7 +11,7 @@ sudo pacman -Syyuu
 sudo pacman -S man man-pages texinfo qutebrowser firefox ufw ctags cscope\
 	cmake fzf git nasm gdb bash-completion ttf-dejavu-nerd dex xss-lock\
 	notification-daemon brightnessctl powertop tlp tlp-rdw p7zip wget\
-	lib32-libltdl lib32-gcc-libs
+	lib32-libltdl lib32-gcc-libs mupdf
 
 # Configuração ufw
 sudo ufw default deny incoming; sudo systemctl enable ufw
@@ -25,7 +25,7 @@ sudo systemctl mask systemd-rfkill.socket
 # YAY, instalação e configuração inicial
 cd /tmp; git clone https://aur.archlinux.org/yay.git; cd yay
 makepkg -si; cd ..; yay -Y --gendb; yay -Syu --devel; yay -Y --devel --save
-yay sioyek chromium-widevine vi
+yay chromium-widevine vi
 
 # auto-cpufreq, instalação e configuração inicial
 git clone https://github.com/AdnanHodzic/auto-cpufreq.git; cd auto-cpufreq
