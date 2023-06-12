@@ -24,7 +24,7 @@ unset safe_term match_lhs
 
 # Vi command line [ESC], Vim command Editor [ESC+v]
 set -o vi
-export EDITOR="/usr/bin/vi"
+export EDITOR="/usr/local/bin/vim"
 
 # change to parents, ex: 'up 2'
 up() { cd $(eval printf '../'%.0s {1..$1}); }
