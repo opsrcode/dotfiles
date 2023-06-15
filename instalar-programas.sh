@@ -11,16 +11,17 @@ printf "\n\t###################################################################
 \t\tMOVENDO ARQUIVOS DE CONFIGURAÇÃO E INICIALIZANDO SCRIPT
 \t###################################################################\n\n"
        
-sudo mv .bash* .config .vim .vimrc .ctags .Xresources
+sudo mv .bash* .vim .vimrc .ctags .Xresources ~
+sudo mv .config/i3/config ~/.config/i3/
 
 printf "\n\t###################################################################
 \t\tINSTALAÇÕES BÁSICAS
 \t###################################################################\n\n"
        
 sudo pacman -Syyuu
-sudo pacman -S man man-pages texinfo ufw qutebrowser ctags cscope cmake fzf git\
-	gdb bash-completion ttf-dejavu-nerd dex xss-lock notification-daemon\
-	brightnessctl powertop tlp tlp-rdw p7zip wget lib32-gcc-libs mupdf perl
+sudo pacman -S man man-pages texinfo ufw qutebrowser ctags cscope cmake fzf gdb\
+	bash-completion ttf-dejavu-nerd dex xss-lock notification-daemon\
+	brightnessctl powertop tlp tlp-rdw p7zip wget libnotify mupdf perl
 
 printf "\n\t###################################################################
 \t\tCONFIGURAÇÃO UFW E TLP SERVICES
@@ -52,13 +53,13 @@ cd install-tl-2023* ; sudo perl ./install-tl --no-interaction
 echo 'export PATH="$PATH:/usr/local/texlive/2023/bin/x86_64-linux"' >> ~/.bash_profile
 echo 'export MANPATH="$MANPATH:/usr/local/texlive/2023/texmf-dist/doc/man"' >> ~/.bash_profile
 echo 'export INFOPATH="$INFOPATH:/usr/local/texlive/2023/texmf-dist/doc/info"' >> ~/.bash_profile
-source ~/.bash_profile; cd ..; rm -rf yay auto-cpufreq install-tl-*; cd 
+source ~/.bash_profile; cd ..; rm -rf yay auto-cpufreq install-tl-*; orphans; cd 
 
 printf "\n\t###################################################################
 \t\tDOWNLOAD E COMPILAÇÃO VIM TEXT EDITOR
 \t###################################################################\n\n"
        
-sudo pacman -R vim; orphans
+sudo pacman -Rs vim;
 cd /usr/local/src; sudo git clone https://github.com/vim/vim.git; cd vim
 sudo ./configure && sudo make install
 
@@ -69,7 +70,7 @@ printf "\n\t###################################################################
 sudo printf "Section \"InputClass\"\n\tIdentifier \"touchpad\"\n\tDriver \"libinput\"\n\
 	\tMatchIsTouchpad \"on\"\n\tOption \"Tapping\" \"on\"\nEndSection" > /etc/X11/xorg.conf.d/90-touchpad.conf
 sudo printf "[D-BUS Service]\nName=org.freedesktop.Notifications\n\
-	Exec=/usr/lib/notification-daemon-1.0/notification-daemon" > /usr/share/dbus-1/service/org.freedesktop.Notifications.service
+	Exec=/usr/lib/notification-daemon-1.0/notification-daemon" > /usr/share/dbus-1/services/org.freedesktop.Notifications.service
 
 printf "\n\t###################################################################
 \t\tCALIBRAÇÃO POWERTOP E AUTO-TUNE
