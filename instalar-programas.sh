@@ -50,10 +50,7 @@ printf "\n\t###################################################################
 wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
 zcat < install-tl-unx.tar.gz | tar xf - 
 cd install-tl-2023* ; sudo perl ./install-tl --no-interaction
-echo 'export PATH="$PATH:/usr/local/texlive/2023/bin/x86_64-linux"' >> ~/.bash_profile
-echo 'export MANPATH="$MANPATH:/usr/local/texlive/2023/texmf-dist/doc/man"' >> ~/.bash_profile
-echo 'export INFOPATH="$INFOPATH:/usr/local/texlive/2023/texmf-dist/doc/info"' >> ~/.bash_profile
-source ~/.bash_profile; cd ..; rm -rf yay auto-cpufreq install-tl-*; orphans; cd 
+source ~/.bash_profile; cd ..; sudo rm -rf yay auto-cpufreq install-tl-*; orphans; cd 
 
 printf "\n\t###################################################################
 \t\tDOWNLOAD E COMPILAÇÃO VIM TEXT EDITOR
@@ -67,10 +64,13 @@ printf "\n\t###################################################################
 \t\tCONFIGURAÇÃO DE CLIQUE TOUCHPAD E ERRO DE NOTIFICAÇÃO
 \t###################################################################\n\n"
        
-sudo printf "Section \"InputClass\"\n\tIdentifier \"touchpad\"\n\tDriver \"libinput\"\n\
-	\tMatchIsTouchpad \"on\"\n\tOption \"Tapping\" \"on\"\nEndSection" > /etc/X11/xorg.conf.d/90-touchpad.conf
-sudo printf "[D-BUS Service]\nName=org.freedesktop.Notifications\n\
-	Exec=/usr/lib/notification-daemon-1.0/notification-daemon" > /usr/share/dbus-1/services/org.freedesktop.Notifications.service
+printf "Section \"InputClass\"\n\tIdentifier \"touchpad\"\n\tDriver \"libinput\"\n\
+	\tMatchIsTouchpad \"on\"\n\tOption \"Tapping\" \"on\"\nEndSection" > 90-touchpad.conf
+sudo mv 90-touchpad.conf /etc/X11/xorg.conf.d
+
+printf "[D-BUS Service]\nName=org.freedesktop.Notifications\n\
+	Exec=/usr/lib/notification-daemon-1.0/notification-daemon" > org.freedesktop.Notifications.service
+sudo mv org.freedesktop.Notifications.service /usr/share/dbus-1/services
 
 printf "\n\t###################################################################
 \t\tCALIBRAÇÃO POWERTOP E AUTO-TUNE
