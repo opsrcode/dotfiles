@@ -1,5 +1,5 @@
 alias ls='ls --color=auto'
-alias dir='dir --color-auto'
+alias dir='dir --color=auto'
 alias grep='grep --color=auto'
 alias dmesg='dmesg --color=auto'
 alias ll='ls -lah'

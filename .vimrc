@@ -1,12 +1,13 @@
+filetype plugin on
 filetype plugin indent on
 let mapleader=','
 set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab smarttab encoding=utf-8
 set backspace=indent,eol,start history=10 autoindent laststatus=2 showmatch
-set matchtime=1 hlsearch incsearch cmdheight=1 cursorline shell=bash showcmd
-set textwidth=78 cursorlineopt=number ignorecase showtabline=1 numberwidth=2
-set winwidth=80 wildmode=longest,list smartcase background=dark t_Co=256 magic
-set nocompatible backup path+=/etc/** hidden autoread colorcolumn=+2 lazyredraw
-set copyindent preserveindent nowrap so=5 ruler
+set matchtime=1 hlsearch incsearch cmdheight=1 shell=bash showcmd textwidth=78
+set ignorecase showtabline=1 numberwidth=2 winwidth=80 wildmode=longest,list
+set smartcase background=dark magic nocompatible backup path+=/etc/** t_Co=256 
+set hidden autoread colorcolumn=+2 lazyredraw copyindent preserveindent nowrap
+set so=5 ruler omnifunc=syntaxcomplete#Complete
 hi ColorColumn ctermbg=black ctermfg=white guibg=black guifg=white
 set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ \
 		\[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %=\
@@ -48,4 +49,7 @@ function! FZF() abort
 endfunction
 command! -nargs=* Files call FZF()
 nnoremap <silent> <leader>f :Files<cr>
-autocmd Filetype html,javascript,php,python,css setlocal ts=2 sw=2
+let g:tex_flavor = "latex"
+autocmd Filetype html,javascript,php,python,css,tex setlocal ts=2 sw=2
+nnoremap <Leader>rs :set keymap=russian-jcukenmac<cr>
+nnoremap <Leader>km :set keymap=<cr>
