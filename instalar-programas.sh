@@ -22,7 +22,7 @@ sudo pacman -Syyuu
 sudo pacman -S man man-pages texinfo ufw qutebrowser ctags cscope cmake fzf gdb\
 	bash-completion ttf-dejavu-nerd dex xss-lock notification-daemon\
 	brightnessctl powertop tlp tlp-rdw p7zip wget libnotify mupdf perl\
- 	lib32-libltdl lib32-gcc-libs
+ 	lib32-libltdl lib32-gcc-libs splint flawfinder
 
 printf "\n\t###################################################################
 \t\tCONFIGURAÇÃO UFW E TLP SERVICES
