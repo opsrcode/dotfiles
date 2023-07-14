@@ -13,6 +13,7 @@ printf "\n\t###################################################################
        
 sudo mv .bash* .vim .vimrc .ctags .Xresources ~
 sudo mv .config/i3/config ~/.config/i3/
+mkdir ~/.config/qutebrowser/ ; mv .config/qutebrowser/config.py ~/.config/qutebrowser/
 
 printf "\n\t###################################################################
 \t\tINSTALAÇÕES BÁSICAS
