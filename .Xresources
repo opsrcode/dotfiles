@@ -1,0 +1,18 @@
+!----- xrdb -merge ~/.Xresources
+ 
+!
+!----- XTerm settings
+!
+
+xterm*background:	#000000
+xterm*foreground:	#999999
+xterm*cursorColor:	#999999
+xterm*cursorBlink:	false
+
+xterm*faceName:	DejaVuSansM Nerd Font Mono
+xterm*faceSize:	11
+xterm*allowBoldFonts:	true
+
+xterm*loginShell:	true
+xterm*utf8:		1
+xterm*saveLines:	1000
