@@ -1,18 +1,50 @@
-!----- xrdb -merge ~/.Xresources
- 
-!
-!----- XTerm settings
-!
+Xft.dpi:    96
+Xft.antialias: false
+Xft.hinting:    1
+Xft.hintstyle:  hintmedium
 
-xterm*background:	#000000
-xterm*foreground:	#999999
-xterm*cursorColor:	#999999
-xterm*cursorBlink:	false
+URxvt.termName: rxvt
+URxvt*depth: 32
+URxvt.transparent: false
+URxvt.font: xft:DejaVuSansM Nerd Font Propo:style=Regular:size=10
+URxvt.scrollBar: false
+URxvt.cursorBlink: false
+URxvt.allowBoldFonts: true
 
-xterm*faceName:	DejaVuSansM Nerd Font Mono
-xterm*faceSize:	11
-xterm*allowBoldFonts:	true
+! Gruber-Darker
+URxvt*foreground:  #e4e4ef
+URxvt*background:  #000000
+URxvt*cursorColor: #AAAAAA
+URxvt*color0:  #2E3436
+URxvt*color1:  #a40000
+URxvt*color2:  #4E9A06
+URxvt*color3:  #C4A000
+URxvt*color4:  #3465A4
+URxvt*color5:  #75507B
+URxvt*color6:  #ce5c00
+URxvt*color7:  #babdb9
+URxvt*color8:  #555753
+URxvt*color9:  #EF2929
+URxvt*color10: #8AE234
+URxvt*color11: #FCE94F
+URxvt*color12: #729FCF
+URxvt*color13: #AD7FA8
+URxvt*color14: #fcaf3e
+URxvt*color15: #EEEEEC
 
-xterm*loginShell:	true
-xterm*utf8:		1
-xterm*saveLines:	1000
+URxvt.perl-common:
+URxvt.perl-ext-common:
+URxvt.url-launcher: /usr/bin/xdg-open
+URxvt.iso14755: false
+URxvt.geometry: 80x24
+URxvt.saveLines: 2048
+URxvt.internalBorder: 0
+URxvt.leadingSpace: 0
+URxvt.lineSpace: 0
+URxvt.urgentOnBell: true
+
+! Keybindings
+URxvt.keysym.Control-k: command:\033]720;1\007
+URxvt.keysym.Control-j: command:\033]721;1\007
+URxvt.keysym.Control-Right: \033[1;5C
+URxvt.keysym.Control-Left: \033[1;5D
