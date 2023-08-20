@@ -93,7 +93,7 @@ syntax enable
 
 " Statusline configuration
 set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ \
-      \[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %=\
+      \[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %=\ %l\/%L\ %c%V\ %P
 
 " Mechanisms configuration
 set history=1000 undolevels=1000 magic wildmenu wildmode=longest,list,full
