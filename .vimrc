@@ -33,16 +33,30 @@ autocmd!
 
 " open the last edited file at the last edited line
 autocmd BufReadPost *
-      \ if line("'\"") > 0 && line("'\"") <= line("$") |
+      \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g'\"" |
       \ endif
 
-"  open files with fzf
+" enable persistent undo history
+let &runtimepath .= ',' . '/$HOME/.vim/'
+if has ('persistent_undo')
+  let undoDir = expand('$HOME/.vim' . '/tmp')
+  call system('mkdir -p ' . undoDir)
+  let &undodir = undoDir
+  set undolevels=1000
+  set undoreload=10000
+  set undofile
+endif
+
+" fzf
+" https://dev.to/pbnj/interactive-fuzzy-finding-in-vim-without-plugins-4kkj
+" press <leader> + ff or type :Files to open fzf file search 
+let mapleader = "," " default leader is \
 function! FZF() abort
   let l:tempname = tempname()
-  execute 'silent !fzf --multi ' . ' --preview="cat {}"
-        \--bind ctrl-k:preview-page-up,ctrl-j:preview-page-down
-        \| awk ''{ print $1":1:0" }'' > ' . fnameescape(l:tempname)
+  execute 'silent !fzf --multi ' .
+    \' --preview="cat {}" --bind ctrl-k:preview-page-up,ctrl-j:preview-page-down
+    \| awk ''{ print $1":1:0" }'' > ' . fnameescape(l:tempname)
   try
     execute 'cfile ' . l:tempname
     redraw!
@@ -103,7 +117,8 @@ set omnifunc=syntaxcomplete#Complete nostartofline
 " Editor configuration
 set expandtab smarttab showmatch matchtime=1 autoindent copyindent preserveindent
 set smartindent smarttab nowrap foldmethod=indent foldlevel=99 foldnestmax=10
-set foldenable foldcolumn=1 foldopen=search,tag,block,percent quickfixtextfunc=printf
+set foldenable foldcolumn=1 foldopen=search,tag,block,percent shiftround
+set quickfixtextfunc=printf
 
 " Remaps
 
@@ -129,8 +144,8 @@ nmap <leader>4 :setlocal tabstop=4<CR>:setlocal shiftwidth=4<CR>:setlocal softta
 
 nnoremap <C-l> :nohl<CR><C-l>
 nnoremap <leader>ss :call <SID>SynStack()<CR>
+nnoremap <silent> <leader>fzf :Files<CR>   
 nmap <leader>= :call <SID>CleanCode()<CR>
-nnoremap <silent> <leader>fz :Files<CR>
 nnoremap <leader>df :call <SID>DiffWithSaved()<CR>
 nmap <leader>h :botright vert help<CR>:vert resize 80<CR>:help<space>
 
