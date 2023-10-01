@@ -1,4 +1,5 @@
 " VIM compilation
+
 " git clone https://github.com/vim/vim.git
 " ./configure --with-features=huge \
 "       --enable-multibyte \
@@ -26,7 +27,8 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
-let g:tex_flavor = "latex"
+let g:tex_flavor = 'latex'
+let g:ft_man_open_mode = 'vert'
 
 " Autocommands/Functions
 autocmd!
@@ -48,10 +50,7 @@ if has ('persistent_undo')
   set undofile
 endif
 
-" fzf
 " https://dev.to/pbnj/interactive-fuzzy-finding-in-vim-without-plugins-4kkj
-" press <leader> + ff or type :Files to open fzf file search 
-let mapleader = "," " default leader is \
 function! FZF() abort
   let l:tempname = tempname()
   execute 'silent !fzf --multi ' .
@@ -81,6 +80,17 @@ function! s:DiffWithSaved()
   vnew | r # | normal! 1Gdd
   diffthis
   exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+
+function! s:ChangeIndentation(size) abort
+  try
+    exe 'setlocal tabstop=' . a:size 'shiftwidth=' . a:size 'softtabstop=' . a:size
+    echo 'New indentation size: ' . a:size
+  catch 
+    echohl ErrorMsg
+    echo 'Invalid value'
+    echohl None
+  endtry
 endfunction
 
 " Clean code function
@@ -122,32 +132,35 @@ set quickfixtextfunc=printf
 
 " Remaps
 
-" expand the current directory
+" Expand the current directory
 cnoremap %% <C-r>=expand('%:h').'/'<CR>
 
-" edit/view a file in the current directory or the alternate file
+" Edit/view a file in the current directory or the alternate file
 map <leader>e :edit %%
 map <leader>v :view %%
 map <tab> :e#<CR>
 
-" open the current directory in a tree view
+" Open the current directory in a tree view
 map <leader>, :Lexplore<CR>
 nmap <silent> <C-e> :Lexplore<CR>
 
-" nnoremap <leader>ch :%s/\<<C-R><C-W>\>/
-nnoremap <leader>ch :%s/<C-r><C-w>//gc<C-f>$F/i
-vnoremap <leader>ch y:%s/<C-r>=escape(@", '/\')<CR>//gc<C-f>$F/i
+" Change words in normal mode and visual mode
+nnoremap <leader>ch :%s/<C-r><C-w>/<C-r><C-w>/gc<C-f>$F/i
+vnoremap <leader>ch y:%s/<C-r>=escape(@", '/\')<CR>/<C-r><C-w>/gc<C-f>$F/i
 
-" easy switch for indent spaces
-nmap <leader>2 :setlocal tabstop=2<CR>:setlocal shiftwidth=2<CR>:setlocal softtabstop=2<CR>
-nmap <leader>4 :setlocal tabstop=4<CR>:setlocal shiftwidth=4<CR>:setlocal softtabstop=4<CR>
+" Set default indentation
+autocmd FileType * setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 nnoremap <C-l> :nohl<CR><C-l>
 nnoremap <leader>ss :call <SID>SynStack()<CR>
 nnoremap <silent> <leader>fzf :Files<CR>   
-nmap <leader>= :call <SID>CleanCode()<CR>
 nnoremap <leader>df :call <SID>DiffWithSaved()<CR>
+nmap <leader>= :call <SID>CleanCode()<CR>
+" You also can use getcharstr(), vim > 8.1
+nmap <leader>ci :call <SID>ChangeIndentation(nr2char(getchar()))<CR>
 nmap <leader>h :botright vert help<CR>:vert resize 80<CR>:help<space>
+nmap <leader>m :botright vert Man man<CR>:vert resize 80<CR>:Man<space>
+nmap <leader>k <Plug>ManPreGetPage
 
 " Search for selected text, forwards or backwards.
 vnoremap <silent> * :<C-u>
