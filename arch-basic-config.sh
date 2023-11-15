@@ -17,7 +17,7 @@ printf "===Download=Softwares=Essenciais=========>>\n"
 sudo pacman -Syyuu
 sudo pacman -S base-devel network-manager-applet xss-lock xdg-utils dex \
                notification-daemon libnotify bash-completion brightnessctl \
-               rxvt-unicode powertop ufw
+               rxvt-unicode powertop ufw p7zip
 printf "===Download=Softwares=de=Desenvolvimento=>>\n"
 sudo pacman -S man man-pages textinfo ttf-dejavu-nerd qutebrowser mupdf
 sudo pacman -S gdb flawfinder splint valgrind fzf 
@@ -33,6 +33,7 @@ make && sudo make install ; cd /tmp ; sudo mv vim /usr/local/src/
 printf "===Download=e=Instalação=YAY=============>>\n"
 cd /tmp ; git clone https://aur.archlinux.org/yay.git ; cd /tmp/yay ; makepkg -si
 cd /tmp ; rm -rf yay ; yay -Y --gendb ; yay -Syu --devel ; yay -Y --devel --save
+yay -S chromium-widevine
 printf "===Download=e=Instalação=Auto=CPU=Freq===>>\n"
 cd /tmp ; git clone https://github.com/AdnanHodzic/auto-cpufreq.git
 cd auto-cpufreq ; sudo ./auto-cpufreq-installer ; cd /tmp ; rm -rf auto-cpufreq
