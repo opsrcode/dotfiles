@@ -6,7 +6,7 @@ Xft.hintstyle:  hintmedium
 URxvt.termName: rxvt
 URxvt*depth: 32
 URxvt.transparent: false
-URxvt.font: xft:DejaVuSansM Nerd Font Propo:style=Regular:size=11
+URxvt.font: xft:DejaVuSansM Nerd Font Propo:style=Regular:size=12
 URxvt.scrollBar: false
 URxvt.cursorBlink: false
 URxvt.allowBoldFonts: true

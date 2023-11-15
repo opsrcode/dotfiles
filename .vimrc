@@ -112,7 +112,7 @@ set backupdir=~/.vim/tmp,/var/tmp,/tmp
 set textwidth=80 cc=+1 showcmd cmdheight=1 showtabline=1 ruler background=dark
 set winwidth=80 winheight=25 scrolloff=8 sidescrolloff=8 laststatus=2
 hi ColorColumn ctermbg=white ctermfg=black
-colorscheme quiet
+colorscheme happy_hacking
 syntax enable
 
 " Statusline configuration
