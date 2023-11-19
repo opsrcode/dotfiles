@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -xe
+# set -xe
 
 printf "===Arquivos=de=configuração==============>>\n"
 mv .bash* .Xresources .vim .vimrc ~
@@ -47,7 +47,7 @@ sudo pacman -S mariadb
 sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 sudo systemctl start mariadb ; sudo mysql_secure_installation 
 printf "\n\nConnects to the MariaDB Server on the 'localhost':\n\t\
-mariadb -u [username] -p[password] -h [hostname] [database_name]\n\n"
+mariadb -h [hostname] -u [username] -p[password] [database_name]\n\n"
 printf "===Configurações=Firewall=e=Bateria======>>\n"
 sudo ufw default deny incoming ; sudo systemctl enable ufw ; sudo ufw enable 
 sudo ufw status verbose
