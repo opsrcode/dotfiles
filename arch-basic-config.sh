@@ -21,7 +21,7 @@ sudo pacman -S base-devel network-manager-applet xss-lock xdg-utils dex \
                rxvt-unicode powertop ufw p7zip
 printf "===Download=Softwares=de=Desenvolvimento=>>\n"
 sudo pacman -S man man-pages texinfo ttf-dejavu-nerd qutebrowser mupdf
-sudo pacman -S gdb flawfinder splint valgrind fzf 
+sudo pacman -S gdb flawfinder splint valgrind fzf php nodejs npm jdk-openjdk
 printf "===Download=e=Instalação=VIM=============>>\n"
 sudo pacman -R vim nano
 cd /tmp ; git clone https://github.com/vim/vim.git ; cd /tmp/vim
