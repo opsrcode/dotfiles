@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# set -xe
-
 printf "===Arquivos=de=configuração==============>>\n"
 mv .bash* .Xresources .vim .vimrc ~
 mv .config/qutebrowser ~/.config ; mv .config/i3/config ~/.config/i3
@@ -18,10 +16,8 @@ printf "===Download=Softwares=Essenciais=========>>\n"
 sudo pacman -Syyuu
 sudo pacman -S base-devel network-manager-applet xss-lock xdg-utils dex \
                notification-daemon libnotify bash-completion brightnessctl \
-               rxvt-unicode powertop ufw p7zip
-printf "===Download=Softwares=de=Desenvolvimento=>>\n"
-sudo pacman -S man man-pages texinfo ttf-dejavu-nerd qutebrowser mupdf
-sudo pacman -S gdb flawfinder splint valgrind fzf php nodejs npm jdk-openjdk
+               rxvt-unicode powertop ufw p7zip man man-pages texinfo \
+               ttf-dejavu-nerd qutebrowser mupdf fzf
 printf "===Download=e=Instalação=VIM=============>>\n"
 sudo pacman -R vim nano
 cd /tmp ; git clone https://github.com/vim/vim.git ; cd /tmp/vim
