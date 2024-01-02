@@ -19,7 +19,7 @@ sudo pacman -S base-devel network-manager-applet xss-lock xdg-utils dex \
                rxvt-unicode powertop ufw p7zip man man-pages texinfo \
                ttf-dejavu-nerd qutebrowser mupdf fzf
 
-# sudo pacman -S gdb valgrind splint php nodejs xampp jdk-openjdk
+# sudo pacman -S gdb valgrind splint php nodejs jdk-openjdk
  
 printf "===Download=e=Instalação=VIM=============>>\n"
 sudo pacman -R vim nano
@@ -33,6 +33,9 @@ make && sudo make install ; cd /tmp ; sudo mv vim /usr/local/src/
 printf "===Download=e=Instalação=YAY=============>>\n"
 cd /tmp ; git clone https://aur.archlinux.org/yay.git ; cd /tmp/yay ; makepkg -si
 cd /tmp ; rm -rf yay ; yay -Y --gendb ; yay -Syu --devel ; yay -Y --devel --save
+
+# yay -S xampp
+
 printf "===Download=e=Instalação=Auto=CPU=Freq===>>\n"
 cd /tmp ; git clone https://github.com/AdnanHodzic/auto-cpufreq.git
 cd auto-cpufreq ; sudo ./auto-cpufreq-installer ; cd /tmp ; rm -rf auto-cpufreq
