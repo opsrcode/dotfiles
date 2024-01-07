@@ -17,7 +17,7 @@ sudo pacman -Syyuu
 sudo pacman -S base-devel network-manager-applet xss-lock xdg-utils dex \
                notification-daemon libnotify bash-completion brightnessctl \
                rxvt-unicode powertop ufw p7zip man man-pages texinfo \
-               ttf-dejavu-nerd chromium mupdf fzf # qutebrowser
+               ttf-dejavu-nerd chromium mupdf fzf
 
 # sudo pacman -S gdb valgrind splint php nodejs jdk-openjdk
  
