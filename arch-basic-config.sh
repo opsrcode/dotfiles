@@ -2,7 +2,7 @@
 
 printf "===Arquivos=de=configuração==============>>\n"
 mv .bash* .Xresources .vim .vimrc ~
-mv .config/qutebrowser ~/.config ; mv .config/i3/config ~/.config/i3
+mv .config/i3/config ~/.config/i3
 printf "===Reparos=Instalação=e=Touchpad=========>>\n"
 printf "Gerando arquivo de configuração do touchpad\n"
 sudo sh -c 'printf "Section \"InputClass\"\n\tIdentifier \"touchpad\"\n\
@@ -17,7 +17,7 @@ sudo pacman -Syyuu
 sudo pacman -S base-devel network-manager-applet xss-lock xdg-utils dex \
                notification-daemon libnotify bash-completion brightnessctl \
                rxvt-unicode powertop ufw p7zip man man-pages texinfo \
-               ttf-dejavu-nerd qutebrowser mupdf fzf
+               ttf-dejavu-nerd chromium mupdf fzf # qutebrowser
 
 # sudo pacman -S gdb valgrind splint php nodejs jdk-openjdk
  
