@@ -3,10 +3,14 @@ Xft.antialias: false
 Xft.hinting:    1
 Xft.hintstyle:  hintmedium
 
+URxvt.font: xft:Iosevka:size=12:hinting=true
+URxvt.italicFont: xft:Iosevka:size=12:style=Italic:hinting=true
+URxvt.boldFont: xft:Iosevka:size=12:style=Bold:hinting=true
+URxvt.boldItalicFont: xft:Iosevka:size=12:style=Bold Italic:hinting=true
+
 URxvt.termName: rxvt
 URxvt*depth: 32
 URxvt.transparent: false
-URxvt.font: xft:DejaVuSansM Nerd Font Propo:style=Regular:size=12
 URxvt.scrollBar: false
 URxvt.cursorBlink: false
 URxvt.allowBoldFonts: true
