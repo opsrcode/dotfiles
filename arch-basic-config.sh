@@ -16,8 +16,7 @@ printf "===Download=Softwares=Essenciais=========>>\n"
 sudo pacman -Syyuu
 sudo pacman -S base-devel network-manager-applet xss-lock xdg-utils dex \
                notification-daemon libnotify bash-completion brightnessctl \
-               rxvt-unicode powertop ufw p7zip man man-pages texinfo \
-               ttf-dejavu-nerd chromium mupdf fzf
+               rxvt-unicode powertop ufw man man-pages texinfo
 
 # sudo pacman -S gdb valgrind splint php nodejs jdk-openjdk
  
@@ -33,6 +32,7 @@ make && sudo make install ; cd /tmp ; sudo mv vim /usr/local/src/
 printf "===Download=e=Instalação=YAY=============>>\n"
 cd /tmp ; git clone https://aur.archlinux.org/yay.git ; cd /tmp/yay ; makepkg -si
 cd /tmp ; rm -rf yay ; yay -Y --gendb ; yay -Syu --devel ; yay -Y --devel --save
+yay -S ttf-iosevka google-chrome
 
 # yay -S xampp
 
