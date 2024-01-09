@@ -50,21 +50,6 @@ if has ('persistent_undo')
   set undofile
 endif
 
-" https://dev.to/pbnj/interactive-fuzzy-finding-in-vim-without-plugins-4kkj
-function! FZF() abort
-  let l:tempname = tempname()
-  execute 'silent !fzf --multi ' .
-    \' --preview="cat {}" --bind ctrl-k:preview-page-up,ctrl-j:preview-page-down
-    \| awk ''{ print $1":1:0" }'' > ' . fnameescape(l:tempname)
-  try
-    execute 'cfile ' . l:tempname
-    redraw!
-  finally
-    call delete(l:tempname)
-  endtry
-endfunction
-command! -nargs=* Files call FZF()
-
 " Show syntax highlighting groups for word under cursor
 function! s:SynStack()
   if !exists("*synstack")
@@ -153,7 +138,6 @@ autocmd FileType * setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 nnoremap <C-l> :nohl<CR><C-l>
 nnoremap <leader>ss :call <SID>SynStack()<CR>
-nnoremap <silent> <leader>fzf :Files<CR>   
 nnoremap <leader>df :call <SID>DiffWithSaved()<CR>
 nmap <leader>= :call <SID>CleanCode()<CR>
 " You also can use getcharstr(), vim > 8.1
