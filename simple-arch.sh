@@ -4,7 +4,7 @@ function section_title (
   function border {
     printf " ~~~~~%s\n" $(for i in $@ ; do for j in $(seq 1 ${#i}) ; do printf '~'
                           done ; printf '~' ; done)
-  } ; border $@ ; echo -e '~~~ '$@' ~~~' ; border $@ ; printf "\n"
+  } ; printf "\n" ; border $@ ; echo -e '~~~ '$@' ~~~' ; border $@ ; printf "\n"
 )
 
 
@@ -43,7 +43,7 @@ make && sudo make install ; cd /tmp ; sudo mv vim /usr/local/src/
 section_title 'Compilação YAY (Gerenciador de pacotes AUR)'
 cd /tmp ; git clone https://aur.archlinux.org/yay.git ; cd /tmp/yay ; makepkg -si
 cd /tmp ; rm -rf yay ; yay -Y --gendb ; yay -Syu --devel ; yay -Y --devel --save
-yay --noconfirm --diff-noconfirm -S ttf-iosevka google-chrome
+yay --noconfirm -S ttf-iosevka google-chrome
  
    
 section_title 'Compilação Auto CPU Freq'
