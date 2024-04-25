@@ -9,7 +9,7 @@ function section_title (
 
 
 section_title 'Arquivos de configuração'
-mv .bash* .Xresources .vim .vimrc ~ ; mv .config/i3/config ~/.config/i3
+mv .bash* .Xresources .vim* ~ ; mv .config/i3/config ~/.config/i3
  
  
 section_title 'Configurações de Notificação e Touchpad'
@@ -24,9 +24,9 @@ Exec=/usr/lib/notification-daemon-1.0/notification-daemon" > \
  
 section_title 'Software Essenciais'
 sudo pacman --noconfirm -Syyuu
-sudo pacman --noconfirm -S base-devel network-manager-applet xss-lock dex gdb \
-xdg-utils notification-daemon libnotify bash-completion brightnessctl mupdf \
-rxvt-unicode powertop ufw man man-pages texinfo valgrind splint
+sudo pacman --noconfirm -S base-devel network-manager-applet xss-lock dex \
+xdg-utils notification-daemon libnotify bash-completion brightnessctl \
+rxvt-unicode powertop ufw man man-pages texinfo ttc-iosevka chromium mupdf
    
 
 section_title 'Compilação VIM'
@@ -43,7 +43,6 @@ make && sudo make install ; cd /tmp ; sudo mv vim /usr/local/src/
 section_title 'Compilação YAY (Gerenciador de pacotes AUR)'
 cd /tmp ; git clone https://aur.archlinux.org/yay.git ; cd /tmp/yay ; makepkg -si
 cd /tmp ; rm -rf yay ; yay -Y --gendb ; yay -Syu --devel ; yay -Y --devel --save
-yay --noconfirm -S ttf-iosevka google-chrome
  
    
 section_title 'Compilação Auto CPU Freq'
@@ -51,11 +50,11 @@ cd /tmp ; git clone https://github.com/AdnanHodzic/auto-cpufreq.git
 cd auto-cpufreq ; sudo ./auto-cpufreq-installer ; cd /tmp ; rm -rf auto-cpufreq
  
    
+
 # section_title 'Compilação TeX Live'
 # cd /tmp ; wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
 # zcat < install-tl-unx.tar.gz | tar xf - ; cd install-tl-2*
 # sudo perl ./install-tl --no-interaction ; cd /tmp ; rm -rf install-tl-*
-# echo -e 'Descomentar variáveis de sistema em ~/.bash_profile'
 
 
 # section_title 'Instalação e Configuração MariaDB'
@@ -70,5 +69,3 @@ section_title 'Configuração UFW, Powertop e Auto CPU Freq'
 sudo ufw default deny incoming ; sudo systemctl enable ufw ; sudo ufw enable 
 sudo ufw status verbose ; sudo powertop --calibrate ; sudo powertop --auto-tune
 sudo auto-cpufreq --install
-
-section_title 'Configuração de setup Arch Linux básico finalizado com sucesso!'
