@@ -1,3 +1,11 @@
+" Notes
+"   gqap - reestructure
+"   *cgn - replate the next match
+"   sudo pacman -S ctags
+"   git clone https://github.com/yegappan/taglist
+"   ctags *.c
+"   :TlistOpen
+ 
 " VIM compilation
 
 " git clone https://github.com/vim/vim.git
@@ -113,7 +121,6 @@ set omnifunc=syntaxcomplete#Complete nostartofline
 set expandtab smarttab showmatch matchtime=1 autoindent copyindent preserveindent
 set smartindent smarttab nowrap foldmethod=indent foldlevel=99 foldnestmax=10
 set foldenable foldcolumn=1 foldopen=search,tag,block,percent shiftround
-set quickfixtextfunc=printf
 
 " Remaps
 
