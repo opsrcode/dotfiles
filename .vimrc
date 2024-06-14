@@ -1,13 +1,8 @@
 " Notes
 "   gqap - reestructure
-"   *cgn - replate the next match
-"   sudo pacman -S ctags
-"   git clone https://github.com/yegappan/taglist
-"   ctags *.c
-"   :TlistOpen
- 
-" VIM compilation
+"   *cgn - replace the next match"
 
+" VIM compilation
 " git clone https://github.com/vim/vim.git
 " ./configure --with-features=huge \
 "       --enable-multibyte \
