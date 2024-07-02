@@ -97,8 +97,8 @@ set directory=~/.vim/tmp,/var/tmp,/tmp
 set backupdir=~/.vim/tmp,/var/tmp,/tmp
 
 " Tab/Window configuration
-set textwidth=80 cc=+1 showcmd cmdheight=1 showtabline=1 ruler background=dark
-set winwidth=80 winheight=25 scrolloff=8 sidescrolloff=8 laststatus=2
+set textwidth=70 cc=+1 showcmd cmdheight=1 showtabline=1 ruler background=dark
+set winwidth=70 winheight=25 scrolloff=8 sidescrolloff=8 laststatus=2
 hi ColorColumn ctermbg=white ctermfg=black
 colorscheme happy_hacking
 syntax enable
@@ -144,8 +144,8 @@ nnoremap <leader>df :call <SID>DiffWithSaved()<CR>
 nmap <leader>= :call <SID>CleanCode()<CR>
 " You also can use getcharstr(), vim > 8.1
 nmap <leader>ci :call <SID>ChangeIndentation(nr2char(getchar()))<CR>
-nmap <leader>h :botright vert help<CR>:vert resize 80<CR>:help<space>
-nmap <leader>m :botright vert Man man<CR>:vert resize 80<CR>:Man<space>
+nmap <leader>h :botright vert help<CR>:vert resize 70<CR>:help<space>
+nmap <leader>m :botright vert Man man<CR>:vert resize 70<CR>:Man<space>
 nmap <leader>k <Plug>ManPreGetPage
 
 " Search for selected text, forwards or backwards.
