@@ -56,7 +56,7 @@ cd auto-cpufreq ; sudo ./auto-cpufreq-installer ; cd /tmp ; rm -rf auto-cpufreq
 # sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 # sudo systemctl start mariadb ; sudo mysql_secure_installation 
 # printf "\n\nConnects to the MariaDB Server on the 'localhost':\n\t\
-mariadb -h [hostname] -u [username] -p[password] [database_name]\n\n"
+# mariadb -h [hostname] -u [username] -p[password] [database_name]\n\n"
  
 section_title 'Configuração UFW, Powertop e Auto CPU Freq'
 sudo ufw default deny incoming ; sudo systemctl enable ufw ; sudo ufw enable 
