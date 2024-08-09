@@ -1,9 +1,3 @@
-" Notes
-"   gqap - reestructure
-"   *cgn - replace the next match"
-
-" VIM compilation
-" git clone https://github.com/vim/vim.git
 " ./configure --with-features=huge \
 "       --enable-multibyte \
 "       --enable-rubyinterp=yes \
