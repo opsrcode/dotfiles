@@ -24,7 +24,7 @@ sudo pacman --noconfirm -Syyuu
 sudo pacman --noconfirm -S base-devel network-manager-applet xss-lock dex \
 xdg-utils notification-daemon libnotify bash-completion brightnessctl \
 rxvt-unicode powertop ufw man man-pages texinfo ttc-iosevka chromium mupdf \
-bluez bluez-utils
+bluez bluez-utils irssi
 
 section_title 'Compilação VIM'
 sudo pacman --noconfirm -R vim nano
