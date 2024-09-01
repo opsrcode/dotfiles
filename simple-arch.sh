@@ -23,8 +23,12 @@ section_title 'Software Essenciais'
 sudo pacman --noconfirm -Syyuu
 sudo pacman --noconfirm -S base-devel network-manager-applet xss-lock dex \
 xdg-utils notification-daemon libnotify bash-completion brightnessctl \
-rxvt-unicode powertop ufw man man-pages texinfo ttc-iosevka chromium mupdf \
-bluez bluez-utils irssi
+rxvt-unicode powertop ufw man man-pages texinfo ttc-iosevka irssi mupdf
+
+section_title 'Compilação Ungoogled Chromium'
+cd ~ ; git clone https://github.com/ungoogled-software/ungoogled-chromium-archlinux
+cd ungoogled-chromium-archlinux ; git checkout $(git describe --abbrev=0 --tags)
+makepkg -s ; makepkg --install ; cd ~ ; rm -rf ungoogled-chromium-archlinux
 
 section_title 'Compilação VIM'
 sudo pacman --noconfirm -R vim nano
