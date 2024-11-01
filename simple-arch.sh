@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mv .bash* .Xresources .vim* ~ ; mv .config/i3/config ~/.config/i3
+mv .bash* .Xresources .vimrc ~ ; mv .config/i3/config ~/.config/i3
  
 # sudo sh -c 'printf "Section \"InputClass\"\n\tIdentifier \"touchpad\"\n\
 # \tMatchIsTouchpad \"on\"\n\tDriver \"libinput\"\n\tOption \"Tapping\" \"on\"\n\
