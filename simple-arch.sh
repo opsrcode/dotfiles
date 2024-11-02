@@ -31,6 +31,6 @@ yay -S ungoogled-chromium-bin
 # git clone https://github.com/AdnanHodzic/auto-cpufreq.git
 # cd auto-cpufreq ; sudo ./auto-cpufreq-installer ; cd /tmp ; rm -rf auto-cpufreq
  
-sudo ufw default deny incoming ; sudo systemctl enable ufw
+sudo ufw default deny incoming ; sudo systemctl enable ufw ; sudo ufw enable
 sudo powertop --calibrate ; sudo powertop --auto-tune
 # sudo auto-cpufreq --install
