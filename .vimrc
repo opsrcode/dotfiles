@@ -15,11 +15,11 @@ autocmd BufReadPost *
 
 let &runtimepath .= ',' . '/$HOME/.vim/'
 if has ('persistent_undo')
-  let undoDir = expand('$HOME/.vim' . '/tmp')
+  let undoDir=expand('$HOME/.vim' . '/tmp')
   call system('mkdir -p ' . undoDir)
-  let &undodir = undoDir
-  set undolevels=1000
-  set undoreload=10000
+  let &undodir=undoDir
+  set undolevels=100
+  set undoreload=1000
   set undofile
 endif
 
