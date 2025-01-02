@@ -84,10 +84,10 @@ Include = /etc/pacman.d/mirrorlist
 # bootctl install
 # exit
 
+/mnt/home/username/.bashrc
+[[ -f ~/.bash_profile ]] && . ~/.bash_profile
+
 /mnt/home/username/.bash_profile
-
-[[ -f ~/.bashrc ]] && . ~/.bashrc
-
 VISUAL="/usr/local/bin/vim"
 export EDITOR="$VISUAL"
 set -o vi
