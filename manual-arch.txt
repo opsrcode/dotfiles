@@ -209,6 +209,5 @@ URxvt*color15: #EEEEEC
 
 References
 ----
-https://wiki.archlinux.org/title
-https://wiki.archlinux.org/Installation_guide
-https://wiki.archlinux.org/General_recommendations
+https://wiki.archlinux.org/title/Installation_guide
+https://wiki.archlinux.org/title/General_recommendations
