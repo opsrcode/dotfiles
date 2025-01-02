@@ -39,8 +39,8 @@ w write table to disk and exit
 # pacstrap -K /mnt base base-devel linux linux-firmware amd-ucode polkit xf86-video-amdgpu \
                    xf86-video-ati mesa vulkan-radeon xorg xorg-xinit dhclient inetutils \
                    terminus-font openssh ufw powertop man-db man-pages texinfo git
-                   #networkmanager xf86-video-intel vulkan-intel i3 dmenu rxvt-unicode \
-		   #brightnessctl intel-ucode
+                   #networkmanager xf86-video-intel vulkan-intel pipewire-pulse \
+		   #brightnessctl intel-ucode i3 dmenu rxvt-unicode
 # genfstab -U /mnt >> /mnt/etc/fstab
 
 /mnt/etc/vconsole.conf
