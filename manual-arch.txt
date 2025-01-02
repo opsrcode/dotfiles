@@ -1,0 +1,145 @@
+$ curl -O https://mirror.ufscar.br/archlinux/iso/2024.12.01/archlinux-2024.12.01-x86_64.iso
+$ curl -O https://mirror.ufscar.br/archlinux/iso/2024.12.01/b2sums.txt
+$ curl -O https://mirror.ufscar.br/archlinux/iso/2024.12.01/sha256sums.txt
+$ curl -O https://mirror.ufscar.br/archlinux/iso/2024.12.01/archlinux-2024.12.01-x86_64.iso.sig
+
+$ b2sum -c b2sums.txt --ignore-missing
+$ sha256sum -c sha256sums.txt --ignore-missing
+$ gpg --auto-key-locate clear,wkd -v --locate-external-key pierre@archlinux.org
+$ gpg --verify archlinux-2024.12.01-x86_64.iso.sig
+
+# cp archlinux-2024.12.01-x86_64.iso /dev/disk/by-id/usb-*
+# sync
+
+
+# loadkeys us-acentos
+# setfont ter-114n
+# iwctl station wlan0 connect [Network-Name] --passphrase [Network-Passphrase]
+# timedatectl set-timezone America/Sao_Paulo
+# timedatectl set-ntp true
+# fdisk /dev/sda
+
+d delete a partition
+g create a new empty GPT (GUID Partition Table) partition table
+n add a new partition
+t change a partition type
+w write table to disk and exit
+
+/dev/sda1 1GiB	                                     EFI System 	 /boot
+/dev/sda3 8GiB     	  	                     Linux swap          [SWAP]
+/dev/sda2 Remainder of the device. At least 23-32GiB Linux root (x86_64) /
+
+# mkfs.fat -F32 /dev/efi_system_partition
+# mkfs.ext4 /dev/root_partition
+# mkswap /dev/swap_partition
+# mount /dev/root_partition /mnt
+# mount --mkdir /dev/efi_system_partition /mnt/boot
+# swapon /dev/swap_partition
+# reflector --latest 20 --sort rate --country Brazil --save /etc/pacman.d/mirrorlist
+# pacstrap -K /mnt base base-devel linux linux-firmware amd-ucode polkit xf86-video-amdgpu \
+                   xf86-video-ati mesa vulkan-radeon xorg xorg-xinit dhclient inetutils \
+                   terminus-font openssh ufw powertop man-db man-pages texinfo git
+                   #networkmanager xf86-video-intel vulkan-intel i3 rxvt-unicode
+# genfstab -U /mnt >> /mnt/etc/fstab
+
+/mnt/etc/vconsole.conf
+KEYMAP=us-acentos
+FONT=ter-114n
+
+/mnt/etc/locale.gen
+en_US.UTF-8 UTF-8
+
+/mnt/etc/locale.conf
+LANG=en_US.UTF-8
+
+/mnt/etc/hostname
+archlinux
+
+/mnt/etc/hosts
+127.0.0.1	localhost
+::1             localhost ip6-localhost ip6-loopback
+
+/mnt/etc/sudoers
+%wheel ALL=(ALL:ALL) ALL
+
+/mnt/etc/mkinitcpio.conf
+MODULES=(amd radeon)
+
+/mnt/etc/pacman.conf
+Color
+VerbosePkgLists
+ParallelDownloads = 5
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+
+# arch-chroot /mnt
+# ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+# hwclock --systohc
+# locale-gen
+# passwd
+# useradd -m -g users -G wheel -s /usr/bin/bash username
+# passwd username
+# bootctl install
+# exit
+
+/mnt/home/username/.bash_profile
+HISTCONTROL=erasedups
+shopt -s cdspell
+let -o noclobber
+set -o vi
+
+# if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+# 	exec startx
+# fi
+
+/mnt/boot/loader/loader.conf
+default arch.conf
+timeout 3
+console-mode auto
+
+# blkid
+/mnt/boot/loader/entries/arch.conf
+title Arch Linux
+linux /vmlinuz-linux
+initrd /amd-ucode.img
+# initrd /intel-ucode.img
+initrd /initramfs-linux.img
+options root=PARTUUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rootfstype=ext4 rw
+
+# arch-chroot /mnt
+# su username
+$ sudo pacman -Syyuu
+$ cd /tmp && git clone https://aur.archlinux.org/yay.git
+$ cd ./yay && makepkg -si && cd /tmp && rm -rf ./yay
+$ yay -Y --gendb && yay -Syu --devel && yay -Y --devel --save
+$ yay -S ungoogled-chromium-bin
+$ cd /tmp && git clone https://github.com/vim/vim.git
+$ cd ./vim && ./configure --with-features=huge --enable-multibyte --prefix=/usr/local
+$ make && sudo make install && cd /tmp && sudo mv vim /usr/local/src/
+$ exit
+
+# systemctl enable NetworkManager.service
+# exit
+# umount -R /mnt
+# reboot
+
+
+# ufw default deny incoming && systemctl enable ufw && ufw enable
+# mkinitcpio
+# powertop --calibrate && powertop --auto-tune
+
+# cp /etc/X11/xinit/xserverrc ~/.xserverrc
+~/.xserverrc
+exec /usr/bin/X -nolisten tcp -nolisten local "$@" vt$XDG_VTNR
+
+# cp /etc/X11/xinit/xinitrc ~/.xinitrc
+~/.xinitrc
+i3-blocks &
+i3status &
+exec i3
+
+References
+----
+https://wiki.archlinux.org/title
+https://wiki.archlinux.org/Installation_guide
+https://wiki.archlinux.org/General_recommendations
