@@ -19,16 +19,6 @@ $ gpg --verify archlinux-2024.12.01-x86_64.iso.sig
 # timedatectl set-ntp true
 # fdisk /dev/sda
 
-d delete a partition
-g create a new empty GPT (GUID Partition Table) partition table
-n add a new partition
-t change a partition type
-w write table to disk and exit
-
-/dev/sda1 1GiB	                                     EFI System 	 /boot
-/dev/sda3 8GiB     	  	                     Linux swap          [SWAP]
-/dev/sda2 Remainder of the device. At least 23-32GiB Linux root (x86_64) /
-
 # mkfs.fat -F32 /dev/efi_system_partition
 # mkfs.ext4 /dev/root_partition
 # mkswap /dev/swap_partition
