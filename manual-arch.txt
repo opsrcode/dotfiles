@@ -18,13 +18,13 @@ $ gpg --verify archlinux-2024.12.01-x86_64.iso.sig
 # timedatectl set-timezone America/Sao_Paulo
 # timedatectl set-ntp true
 # fdisk /dev/sda
-
 # mkfs.fat -F32 /dev/efi_system_partition
 # mkfs.ext4 /dev/root_partition
 # mkswap /dev/swap_partition
 # mount /dev/root_partition /mnt
 # mount --mkdir /dev/efi_system_partition /mnt/boot
 # swapon /dev/swap_partition
+
 # reflector --latest 20 --sort rate --country Brazil --save /etc/pacman.d/mirrorlist
 # pacstrap -K /mnt base base-devel linux linux-firmware amd-ucode polkit xf86-video-amdgpu \
                    xf86-video-ati mesa vulkan-radeon xorg xorg-xinit dhclient inetutils \
@@ -78,9 +78,6 @@ Include = /etc/pacman.d/mirrorlist
 [[ -f ~/.bash_profile ]] && . ~/.bash_profile
 
 /mnt/home/username/.bash_profile
-VISUAL="/usr/local/bin/vim"
-export EDITOR="$VISUAL"
-set -o vi
 HISTCONTROL=erasedups
 shopt -s cdspell
 let -o noclobber
