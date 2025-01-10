@@ -22,10 +22,10 @@ Desktop config
 # reflector --latest 20 --sort rate --country Brazil --save /etc/pacman.d/mirrorlist
 # pacstrap -K /mnt base base-devel linux linux-firmware xf86-video-amdgpu xf86-video-ati \
                    amd-ucode dhclient openssh ufw powertop mesa vulkan-radeo polkit git \
-                   libx11 libxinerama libxft freetype2 xorg-xinit terminus-font man-db \
-                   man-pages texinfo #networkmanager xf86-video-intel bluez bluez-utils \
-                   pipewire-pulse brightnessctl intel-ucode rxvt-unicode vulkan-intel i3 \
-                   xorg
+                   libx11 libxinerama libxft freetype2 xorg-xinit xorg-server terminus-font \
+                   man-db man-pages texinfo #networkmanager xf86-video-intel vulkan-intel \
+                   pipewire-pulse brightnessctl intel-ucode rxvt-unicode bluez bluez-utils \
+                   xorg i3
 # genfstab -U /mnt >> /mnt/etc/fstab
 
 [/mnt/etc/vconsole.conf - Create file]
@@ -54,6 +54,11 @@ ParallelDownloads = 5
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 
+# arch-chroot /mnt
+# ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && hwclock --systohc
+# locale-gen && passwd && useradd -m -g users -G wheel -s /usr/bin/bash username
+# passwd username && bootctl install && exit
+
 [/mnt/home/username/.bash_profile - Edit file]
 - [[ -f ~/.bashrc ]] && . ~/.bashrc
 VISUAL="/usr/local/bin/vim"
@@ -66,16 +71,11 @@ set -o vi
 [/mnt/home/username/.bashrc - Add line]
 [[ -f ~/.bash_profile ]] && . ~/.bash_profile
 
-# arch-chroot /mnt
-# ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && hwclock --systohc
-# locale-gen && passwd && useradd -m -g users -G wheel -s /usr/bin/bash username
-# passwd username && bootctl install && exit
-
-[/mnt/boot/loader/loader.conf - Create file]
-default arch.conf
+[/mnt/boot/loader/loader.conf - Edit file]
+default archlinux.conf
 console-mode auto
 
-[/mnt/boot/loader/entries/arch.conf - Create file]
+[/mnt/boot/loader/entries/archlinux.conf - Create file]
 title	Arch Linux
 linux	/vmlinuz-linux
 initrd	/amd-ucode.img
@@ -91,7 +91,8 @@ MODULES=(amd radeon)
 exec dwm
 
 # arch-chroot /mnt
-# su username && sudo pacman -Syyuu && cd /tmp
+# su username
+$ sudo pacman -Syyuu && cd /tmp
 $ git clone https://aur.archlinux.org/yay.git && git clone https://github.com/vim/vim.git
 $ git clone git://git.suckless.org/dwm && git clone git://git.suckless.org/st
 $ git clone git://git.suckless.org/dmenu
@@ -99,7 +100,7 @@ $ cd dwm && sudo make clean install && cd /tmp/st && sudo make clean install
 $ cd /tmp/dmenu && sudo make clean install
 $ cd ./yay && makepkg -si && yay -Y --gendb && yay -Syu --devel && yay -Y --devel --save
 $ cd /tmp/vim && ./configure --with-features=huge --enable-multibyte --prefix=/usr/local
-$ make && sudo make install && cd /tmp && rm -rf yay auto-cpufreq
+$ make && sudo make install && cd /tmp && rm -rf yay
 $ sudo mv dwm dmenu st vim /usr/local/src && exit
 # exit
 # umount -R /mnt && reboot
@@ -108,7 +109,8 @@ Post-installation Desktop
 ----------------- -------
 $ su
 # dhclient && ufw default deny incoming && systemctl enable ufw && ufw enable
-# mkinitcpio && powertop --calibrate && powertop --auto-tune && pacman -Syyuu && yay
+# mkinitcpio && powertop --calibrate && powertop --auto-tune
+# pacman -Syyuu && yay
 # rm -rf .cache/* .bash_history .bash_logout /var/cache/pacman/pkg/*
 # pacman -Rs $(pacman -Qdtq)
 
@@ -139,7 +141,7 @@ EndSection
 # arch-chroot /mnt
 # su username && cd /tmp && git clone https://github.com/AdnanHodzic/auto-cpufreq.git
 $ cd /tmp/auto-cpufreq && sudo ./auto-cpufreq-installer
-$ yay -S ungoogled-chromium-bin
+$ yay -S ungoogled-chromium-bin && sudo rm -rf /tmp/auto-cpufreq
 
 Post-installation Notebook
 ----------------- --------
