@@ -59,18 +59,6 @@ Include = /etc/pacman.d/mirrorlist
 # locale-gen && passwd && useradd -m -g users -G wheel -s /usr/bin/bash username
 # passwd username && bootctl install && exit
 
-[/mnt/home/username/.bash_profile - Edit file]
-- [[ -f ~/.bashrc ]] && . ~/.bashrc
-VISUAL="/usr/local/bin/vim"
-export EDITOR="$VISUAL"
-set -o vi
-# if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
-# 	exec startx
-# fi
-
-[/mnt/home/username/.bashrc - Add line]
-[[ -f ~/.bash_profile ]] && . ~/.bash_profile
-
 [/mnt/boot/loader/loader.conf - Edit file]
 default archlinux.conf
 console-mode auto
@@ -102,6 +90,15 @@ $ cd ./yay && makepkg -si && yay -Y --gendb && yay -Syu --devel && yay -Y --deve
 $ cd /tmp/vim && ./configure --with-features=huge --enable-multibyte --prefix=/usr/local
 $ make && sudo make install && cd /tmp && rm -rf yay
 $ sudo mv dwm dmenu st vim /usr/local/src && exit
+
+[/mnt/home/username/.bash_profile - Add lines]
+VISUAL="/usr/local/bin/vim"
+export EDITOR="$VISUAL"
+set -o vi
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+	exec startx
+fi
+
 # exit
 # umount -R /mnt && reboot
 
