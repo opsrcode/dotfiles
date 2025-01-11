@@ -91,10 +91,13 @@ $ cd /tmp/vim && ./configure --with-features=huge --enable-multibyte --prefix=/u
 $ make && sudo make install && cd /tmp && rm -rf yay
 $ sudo mv dwm dmenu st vim /usr/local/src && exit
 
-[/mnt/home/username/.bash_profile - Add lines]
+[/mnt/home/username/.bashrc - Add lines]
 VISUAL="/usr/local/bin/vim"
 export EDITOR="$VISUAL"
 set -o vi
+
+[/mnt/home/username/.bash_profile - Add lines]
+[[ -f ~/.bashrc ]] && . ~/.bashrc
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
 	exec startx
 fi
