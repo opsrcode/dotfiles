@@ -50,7 +50,7 @@ set softtabstop=2 shiftwidth=2 noexpandtab autoindent smartindent
 set omnifunc=syntaxcomplete#Complete wildmenu nowrap termencoding=utf-8
 
 colorscheme happy_hacking
-setlocal textwidth=69 cc=+1
+setlocal textwidth=70 cc=+1
 highlight ColorColumn term=reverse ctermbg=232 guibg=#393939
 
 map Q gq
