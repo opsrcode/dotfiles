@@ -48,7 +48,9 @@ augroup END
 set termencoding=utf-8 ruler showcmd display=truncate ttimeout
 set ttimeoutlen=100 tabstop=8 softtabstop=2 shiftwidth=2 noexpandtab
 set autoindent smartindent omnifunc=syntaxcomplete#Complete wildmenu
-set nowrap number relativenumber
+set nowrap number relativenumber laststatus=2
+set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ \
+      \[%{strftime('%d/%m/%Y\ %a\ %H:%M')}\]\ %=\ %l\/%L\ %c%V\ %P
 
 colorscheme happy_hacking
 setlocal textwidth=70 cc=+1
