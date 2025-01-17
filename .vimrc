@@ -45,9 +45,10 @@ augroup vimStartup
   autocmd TermResponse * if v:termresponse == "\e[>0;136;0c" | set background=dark | endif
 augroup END
 
-set ruler showcmd display=truncate ttimeout ttimeoutlen=100 tabstop=8
-set softtabstop=2 shiftwidth=2 noexpandtab autoindent smartindent
-set omnifunc=syntaxcomplete#Complete wildmenu nowrap termencoding=utf-8
+set termencoding=utf-8 ruler showcmd display=truncate ttimeout
+set ttimeoutlen=100 tabstop=8 softtabstop=2 shiftwidth=2 noexpandtab
+set autoindent smartindent omnifunc=syntaxcomplete#Complete wildmenu
+set nowrap number relativenumber
 
 colorscheme happy_hacking
 setlocal textwidth=70 cc=+1
