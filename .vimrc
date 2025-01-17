@@ -61,17 +61,6 @@ let &runtimepath .= ',' . '/$HOME/.vim/'
 let g:ft_man_open_mode = 'vert'
 let mapleader=','
 
-function! s:ChangeIndentation(size) abort
-  try
-    exe 'setlocal tabstop=' . a:size 'shiftwidth=' . a:size 'softtabstop=' . a:size
-    echo 'New indentation size: ' . a:size
-  catch 
-    echohl ErrorMsg
-    echo 'Invalid value'
-    echohl None
-  endtry
-endfunction
-
 if has ('persistent_undo')
   let undoDir=expand('$HOME/.vim' . '/tmp')
   call system('mkdir -p ' . undoDir)
@@ -89,7 +78,6 @@ map Q gq
 
 sunmap Q
 
-nmap <leader>ci :call <SID>ChangeIndentation(nr2char(getchar()))<CR>
 nmap <leader>h :botright vert help<CR>:vert resize 70<CR>:help<space>
 nmap <leader>m :botright vert Man man<CR>:vert resize 70<CR>:Man<space>
 nmap <leader>k <Plug>ManPreGetPage
