@@ -84,6 +84,7 @@ size=1GiB, type=U, name="EFI System Partition"
 size=10GiB, type=S, name="Linux Swap Partition"
 size=+, type=L, name="Linux Filesystem Partition"
 EOF
+	mkfs.fat -F32 "$bootd" && mkfs.ext4 "$rootd" && \
 	mkswap "$swapd" && mount "$rootd" /mnt && \
 	mount --mkdir "$bootd" "$boot" && swapon "$swapd"
 }
