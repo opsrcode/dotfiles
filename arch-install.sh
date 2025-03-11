@@ -34,7 +34,7 @@ hosts="$(cat <<EOF
 EOF
 )"
 sudoers="$user ALL=(ALL:ALL) ALL"
-local pid="$(blkid $rootd | awk -F'PARTUUID=' '{print $2}' | sed 's/"//g')"
+pid="$(blkid $rootd | awk -F'PARTUUID=' '{print $2}' | sed 's/"//g')"
 arch="$(cat <<EOF
 title	Arch Linux
 linux	/vmlinuz-linux
