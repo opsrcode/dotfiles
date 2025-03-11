@@ -15,13 +15,13 @@ $ gpg --verify archlinux-2024.12.01-x86_64.iso.sig
 Desktop config
 ------- ------
 
-# loadkeys us-acentos && setfont ter-114n
+# loadkeys us && setfont ter-114n
 # timedatectl set-timezone America/Sao_Paulo && timedatectl set-ntp true
 # fdisk /dev/sda && mkfs.fat -F32 /dev/sda1 && mkfs.ext4 /dev/sda3 && mkswap /dev/sda2
 # mount /dev/sda3 /mnt && mount --mkdir /dev/sda1 /mnt/boot && swapon /dev/sda2
 # reflector --latest 20 --sort rate --country Brazil --save /etc/pacman.d/mirrorlist
 # pacstrap -K /mnt base base-devel linux linux-firmware xf86-video-amdgpu xf86-video-ati \
-                   amd-ucode dhclient openssh ufw powertop mesa vulkan-radeo polkit git \
+                   amd-ucode dhclient openssh ufw powertop mesa vulkan-radeon polkit git \
                    libx11 libxinerama libxft freetype2 xorg-xinit xorg-server terminus-font \
                    man-db man-pages texinfo #networkmanager xf86-video-intel vulkan-intel \
                    pipewire-pulse brightnessctl intel-ucode rxvt-unicode bluez bluez-utils \
@@ -29,7 +29,7 @@ Desktop config
 # genfstab -U /mnt >> /mnt/etc/fstab
 
 [/mnt/etc/vconsole.conf - Create file]
-KEYMAP=us-acentos
+KEYMAP=us
 FONT=ter-114n
 
 [/mnt/etc/locale.gen - Uncomment]
@@ -50,14 +50,13 @@ archlinux
 
 [/mnt/etc/pacman.conf - Uncomment]
 VerbosePkgLists
-ParallelDownloads = 5
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 
 # arch-chroot /mnt
 # ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && hwclock --systohc
-# locale-gen && passwd && useradd -m -g users -G wheel -s /usr/bin/bash username
-# passwd username && bootctl install && exit
+# locale-gen && passwd && useradd -m -g users -G wheel -s /usr/bin/bash opsrcode
+# passwd opsrcode && bootctl install && exit
 
 [/mnt/boot/loader/loader.conf - Edit file]
 default archlinux.conf
@@ -73,13 +72,13 @@ options	root=PARTUUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rootfstype=ext4 rw
 [/mnt/etc/mkinitcpio.conf - Change line]
 MODULES=(amd radeon)
 
-# cp /mnt/etc/X11/xinit/xinitrc /mnt/home/username/.xinitrc
+# cp /mnt/etc/X11/xinit/xinitrc /mnt/home/opsrcode/.xinitrc
 
-[/mnt/home/username/.xinitrc - Add line]
+[/mnt/home/opsrcode/.xinitrc - Add line]
 exec dwm
 
 # arch-chroot /mnt
-# su username
+# su opsrcode
 $ sudo pacman -Syyuu && cd /tmp
 $ git clone https://aur.archlinux.org/yay.git && git clone https://github.com/vim/vim.git
 $ git clone git://git.suckless.org/dwm && git clone git://git.suckless.org/st
@@ -91,12 +90,12 @@ $ cd /tmp/vim && ./configure --with-features=huge --enable-multibyte --prefix=/u
 $ make && sudo make install && cd /tmp && rm -rf yay
 $ sudo mv dwm dmenu st vim /usr/local/src && exit
 
-[/mnt/home/username/.bashrc - Add lines]
+[/mnt/home/opsrcode/.bashrc - Add lines]
 VISUAL="/usr/local/bin/vim"
 export EDITOR="$VISUAL"
 set -o vi
 
-[/mnt/home/username/.bash_profile - Add lines]
+[/mnt/home/opsrcode/.bash_profile - Add lines]
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
 	exec startx
@@ -125,7 +124,7 @@ MODULES=(i915)
 [/mnt/boot/loader/entries/arch.conf - Change lines]
 initrd	/intel-ucode.img
 
-[/mnt/home/username/.xinitrc - Add lines]
+[/mnt/home/opsrcode/.xinitrc - Add lines]
 i3-blocks &
 i3status &
 exec i3
@@ -139,7 +138,7 @@ Section "InputClass"
 EndSection
 
 # arch-chroot /mnt
-# su username && cd /tmp && git clone https://github.com/AdnanHodzic/auto-cpufreq.git
+# su opsrcode && cd /tmp && git clone https://github.com/AdnanHodzic/auto-cpufreq.git
 $ cd /tmp/auto-cpufreq && sudo ./auto-cpufreq-installer
 $ yay -S ungoogled-chromium-bin && sudo rm -rf /tmp/auto-cpufreq
 
@@ -149,14 +148,14 @@ $ su
 # systemctl enable NetworkManager.service && systemctl start NetworkManager.service
 # nmcli device wifi connect [Network-Name] --ask && auto-cpufreq --install
 
-[/home/username/.config/i3/config - Edit file]
+[/home/opsrcode/.config/i3/config - Edit file]
 font pango:Terminus 8
 bindsym $mod+F8 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym $mod+F7 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86MonBrightnessUp exec brightnessctl set +2%
 bindsym XF86MonBrightnessDown exec brightnessctl set 2%-
 
-[/home/username/.Xresources - Create file]
+[/home/opsrcode/.Xresources - Create file]
 Xft.dpi:              6
 Xft.antialias:        false
 Xft.hinting:          1

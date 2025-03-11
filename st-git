@@ -1,0 +1,41 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# Maintainer: Thiago Castro <professional-dev@hotmail.com>
+pkgname='st-git'
+pkgver='1.0'
+pkgrel=1
+pkgdesc='A simple terminal implementation for X.'
+arch=('x86_64')
+url="https://st.suckless.org/"
+license=('MIT')
+depends=('glibc' 'libx11' 'libxinerama' 'libxft')
+makedepends=('git')
+provides=("$pkgname")
+replaces=("$pkgname")
+source=("$pkgname::git+https://git.suckless.org/st")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$pkgname"
+	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "$pkgname"
+  patchfile='st-expected-anysize-0.9.diff'
+  curl -O "https://st.suckless.org/patches/anysize/$patchfile"
+  patch -i "$patchfile"
+}
+
+build() {
+	cd "$pkgname"
+	make
+}
+
+package() {
+	cd "$pkgname"
+	sudo make clean install
+}

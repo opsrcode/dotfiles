@@ -1,0 +1,41 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# Maintainer: Thiago Castro <professional-dev@hotmail.com>
+pkgname='vim-git'
+pkgver='1.0'
+pkgrel=1
+pkgdesc='A highly configurable text editor built to make creating and changing any kind of text very efficient.'
+arch=('x86_64')
+url="https://www.vim.org/"
+license=('Vim')
+depends=('glibc' 'gpm')
+makedepends=('git')
+provides=("$pkgname" 'xxd')
+conflicts=('gvim' 'vim-minimal')
+replaces=("$pkgname")
+source=("$pkgname::git+https://github.com/vim/vim.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$pkgname"
+	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "$pkgname"
+	./configure --with-features=huge --enable-multibyte \
+                    --enable-python3interp=yes \
+                    --with-python3-command=$PYTHON_VER \
+                    --with-python3-config-dir=$(python3-config --configdir) \
+                    --enable-perlinterp=yes --enable-gui=gtk2 \
+                    --prefix=/usr
+	make
+}
+
+package() {
+	cd "$pkgname"
+	make DESTDIR="$pkgdir/" install
+}
