@@ -34,15 +34,6 @@ hosts="$(cat <<EOF
 EOF
 )"
 sudoers="$user ALL=(ALL:ALL) ALL"
-pid="$(blkid $rootd | awk -F'PARTUUID=' '{print $2}' | sed 's/"//g')"
-arch="$(cat <<EOF
-title	Arch Linux
-linux	/vmlinuz-linux
-initrd	/amd-ucode.img
-initrd	/initramfs-linux.img
-options	root=PARTUUID=$pid rootfstype=ext4 rw
-EOF
-)"
 loader="$(cat <<EOF
 default arch.conf
 console-mode auto
@@ -138,6 +129,15 @@ function boot_config
 {
 	local ldir="$boot/loader"
 	printf "$loader" > "$ldir/loader.conf" && \
+	local pid="$(blkid $rootd | awk -F'PARTUUID=' '{print $2}' | sed 's/"//g')" && \
+	local arch="$(cat <<EOF
+title	Arch Linux
+linux	/vmlinuz-linux
+initrd	/amd-ucode.img
+initrd	/initramfs-linux.img
+options	root=PARTUUID=$pid rootfstype=ext4 rw
+EOF
+)"
 	printf "$arch" > "$ldir/entries/arch.conf"
 	umount -R /mnt && reboot
 }
