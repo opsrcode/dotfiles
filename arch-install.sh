@@ -63,13 +63,6 @@ if [ -z "\$DISPLAY" ] && [ "\$XDG_VTNR" = 1 ]; then
 fi
 EOF
 )"
-part="$(cat <<EOF
-label: gpt
-size=1GiB, type=U, name="EFI System Partition"
-size=10GiB, type=S, name="Linux Swap Partition"
-size=+, type=L, name="Linux Filesystem Partition"
-EOF
-)"
 
 function basics
 {
@@ -80,7 +73,14 @@ function basics
 function partition
 {
 	sfdisk --delete "$based" && wipefs -a "$based" && \
-	sfdisk "$based" "$part"
+	sfdisk "$based" <<EOF
+label: gpt
+device: $based
+unit:sectors
+1:size=1GiB, type=U, name="EFI System Partition"
+2:size=10GiB, type=S, name="Linux Swap Partition"
+3:size=+, type=L, name="Linux Filesystem Partition"
+EOF
 	mkfs.fat -F32 "$bootd" && mkfs.ext4 "$rootd" && \
 	mkswap "$swapd" && mount "$rootd" /mnt && \
 	mount --mkdir "$bootd" "$boot" && swapon "$swapd"
