@@ -96,7 +96,7 @@ function change_files
  	       -e '/^#\[multilib\]/,/^#Include/s/^#//' "$etc/pacman.conf"
 	sed -i -e '/^MODULES=()/s/()/(amd radeon)/' "$etc/mkinitcpio.conf"
 	mkdir "$home" && cd "$home" && cp "$etc/X11/xinit/xinitrc" "$xi" && \
-	sed -i '/\$twm \&/,$d' "$xi" && echo 'exec dwm' >> "$xi"
+	sed -i '/"\$twm" \&/,$d' "$xi" && echo 'exec dwm' >> "$xi"
 	cd $repo
 }
 
