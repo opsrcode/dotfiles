@@ -116,11 +116,7 @@ passwd "$user" && pacman -Syyuu && chown -R "$user":users "$mhome" && cd "$mhome
 pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git') && \
 for pkg in \${pkgs[@]} ; do cd \$pkg && runuser -u "$user" -- makepkg -sri
 cd "$mhome" && mv \$pkg /usr/src/ ; done && printf "$brc" > .bashrc && \
-printf "$bprc" > .bash_profile && git clone https://aur.archlinux.org/yay.git && \
-chown -R "$user:users" yay && cd yay && runuser -u "$user" -- makepkg -sri
-runuser -u "$user" -- yay -Y --gendb && runuser -u "$user" -- yay -Syu --devel
-runuser -u "$user" -- yay -Y --devel --save && cd "$mhome"
-rm -rf yay && bootctl install
+printf "$bprc" > .bash_profile && bootctl install
 EOF
 )"
 }
