@@ -1,0 +1,37 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# Maintainer: Thiago Castro <professional-dev@hotmail.com>
+pkgname='w3m-git'
+pkgver='1.0'
+pkgrel=1
+pkgdesc='A pager with WWW capability.'
+arch=('x86_64')
+url="https://salsa.debian.org/debian/w3m"
+license=('custom')
+depends=('glibc' 'gc' 'libx11' 'openssl')
+makedepends=('git')
+provides=("$pkgname")
+replaces=("$pkgname")
+source=("$pkgname::git+$url.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "$pkgname"
+	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "$pkgname"
+	./configure --prefix=/usr --bindir=/usr/bin --libdir=/usr/lib \
+	            --includedir=/usr/include --mandir=/usr/share/man \
+		    --with-editor=/usr/bin/vim --with-x --with-ssl \
+		    --with-gc --without-imagelib && make
+}
+
+package() {
+	cd "$pkgname"
+	sudo make install
+}
