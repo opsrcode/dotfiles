@@ -6,14 +6,6 @@ if has('reltime')
   set incsearch ignorecase smartcase
 endif
 
-if has('mouse')
-  if &term =~ 'xterm'
-    set mouse=a
-  else
-    set mouse=nvi
-  endif
-endif
-
 if &t_Co > 2
   syntax on
   let c_comment_strings=1
@@ -46,14 +38,14 @@ augroup vimStartup
 augroup END
 
 set termencoding=utf-8 ruler showcmd display=truncate ttimeout
-set ttimeoutlen=100 tabstop=8 softtabstop=2 shiftwidth=2 noexpandtab
-set autoindent smartindent omnifunc=syntaxcomplete#Complete wildmenu
+set ttimeoutlen=100 noexpandtab autoindent 
+set smartindent omnifunc=syntaxcomplete#Complete wildmenu
 set nowrap number relativenumber laststatus=2
 set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ \
       \[%{strftime('%d/%m/%Y\ %a\ %H:%M')}\]\ %=\ %l\/%L\ %c%V\ %P
 
 colorscheme happy_hacking
-setlocal textwidth=70 cc=+1
+setlocal textwidth=80 cc=+1
 highlight ColorColumn term=reverse ctermbg=232 guibg=#393939
 
 map Q gq
