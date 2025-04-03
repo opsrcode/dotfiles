@@ -43,13 +43,13 @@ brc="$(cat <<EOF
 [[ \$- != *i* ]] && return
 PS1='[\u@\h \W]\$ '
 VISUAL='/usr/bin/vim'
-export EDITOR="\$VISUAL"
+export EDITOR=\"\$VISUAL\"
 set -o vi
 EOF
 )"
 bprc="$(cat <<EOF
 [[ -f ~/.bashrc ]] && . ~/.bashrc
-if [ -z "\$DISPLAY" ] && [ "\$XDG_VTNR" = 1 ]; then
+if [ -z \"\$DISPLAY\" ] && [ \"\$XDG_VTNR\" = 1 ]; then
 	exec startx
 fi
 EOF
@@ -103,7 +103,7 @@ function change_files
 function chroot_config
 {
 	local mhome="/home/$user"
-	local pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git')
+	local pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git' 'w3m-git' 'tor-git' 'irssi-git')
 
 	cd "$home" && for pkg in "${pkgs[@]}"; do
 		mkdir $pkg && cp "$repo/$pkg" "$pkg/PKGBUILD"
@@ -113,7 +113,7 @@ function chroot_config
 passwd && ln -sf "/usr/share/zoneinfo/$timezone" /etc/localtime
 hwclock --systohc && locale-gen && useradd -m -g users -s "$shell" "$user"
 passwd "$user" && pacman -Syyuu && chown -R "$user":users "$mhome" && cd "$mhome" 
-pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git') && \
+pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git' 'w3m-git' 'tor-git' 'irssi-git') && \
 for pkg in \${pkgs[@]} ; do cd \$pkg && runuser -u "$user" -- makepkg -sri
 cd "$mhome" && mv \$pkg /usr/src/ ; done && printf "$brc" > .bashrc && \
 printf "$bprc" > .bash_profile && bootctl install
