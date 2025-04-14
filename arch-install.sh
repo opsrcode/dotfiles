@@ -106,7 +106,7 @@ function chroot_config
 	local pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git' 'w3m-git' 'tor-git' 'irssi-git' 'torsocks-git')
 
 	cd "$home" && for pkg in "${pkgs[@]}"; do
-		mkdir $pkg && cp "$repo/$pkg" "$pkg/PKGBUILD"
+	mkdir $pkg && cp "$repo/pkgbuild/$pkg" "$pkg/PKGBUILD"
        	done && cd "$repo" && cp -r .vim* "$home"
 
 	arch-chroot /mnt "$shell" -c "$(cat <<EOF
