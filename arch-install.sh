@@ -2,7 +2,7 @@
 
 repo=$(pwd)
 based='/dev/sda'
-based1='/dev/sdb'
+based2='/dev/sdb'
 bootd=$based"1"
 swapd=$based"2"
 rootd=$based"3"
