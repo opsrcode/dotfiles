@@ -2,9 +2,11 @@
 
 repo=$(pwd)
 based='/dev/sda'
+based1='/dev/sdb'
 bootd=$based"1"
 swapd=$based"2"
 rootd=$based"3"
+homed=$based2"1"
 pac="/etc/pacman.d"
 font='ter-114n'
 keymap='us'
@@ -15,7 +17,7 @@ pkgs="$(cat <<EOF
 base base-devel linux linux-firmware xf86-video-amdgpu xf86-video-ati
 amd-ucode dhclient openssh ufw powertop mesa vulkan-radeon polkit git
 libx11 libxinerama libxft freetype2 xorg-xinit xorg-server 
-terminus-font man-db man-pages texinfo
+terminus-font man-db man-pages texinfo ntp
 EOF
 )"
 boot="/mnt/boot"
@@ -69,12 +71,19 @@ label: gpt
 device: $based
 unit:sectors
 1:size=1GiB, type=U, name="EFI System Partition"
-2:size=10GiB, type=S, name="Linux Swap Partition"
+2:size=20GiB, type=S, name="Linux Swap Partition"
 3:size=+, type=L, name="Linux Filesystem Partition"
 EOF
-	mkfs.fat -F32 "$bootd" && mkfs.ext4 "$rootd" && \
-	mkswap "$swapd" && mount "$rootd" /mnt && \
-	mount --mkdir "$bootd" "$boot" && swapon "$swapd"
+	sfdisk --delete "$based2" && wipefs -a "$based2" && \
+	sfdisk "$based2" <<EOF
+label: gpt
+device: $based2
+unit:sectors
+1:size=+, type=L, name="Linux Filesystem Partition"
+EOF
+	mkfs.fat -F32 "$bootd" && mkfs.ext4 "$rootd" && mkfs.ext4 "$homed" && \
+	mkswap "$swapd" && mount "$rootd" /mnt && mount --mkdir "$bootd" "$boot" && \
+ 	mount --mkdir "$homed" /mnt/home && swapon "$swapd"
 }
 
 function load_pkgs
@@ -103,7 +112,7 @@ function change_files
 function chroot_config
 {
 	local mhome="/home/$user"
-	local pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git' 'w3m-git' 'tor-git' 'irssi-git' 'torsocks-git')
+	local pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git')
 
 	cd "$home" && for pkg in "${pkgs[@]}"; do
 	mkdir $pkg && cp "$repo/pkgbuild/$pkg" "$pkg/PKGBUILD"
@@ -113,9 +122,9 @@ function chroot_config
 passwd && ln -sf "/usr/share/zoneinfo/$timezone" /etc/localtime
 hwclock --systohc && locale-gen && useradd -m -g users -s "$shell" "$user"
 passwd "$user" && pacman -Syyuu && chown -R "$user":users "$mhome" && cd "$mhome" 
-pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git' 'w3m-git' 'tor-git' 'irssi-git' 'torsocks-git') && \
+pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git') && \
 for pkg in \${pkgs[@]} ; do cd \$pkg && runuser -u "$user" -- makepkg -sri
-cd "$mhome" && mv \$pkg /usr/src/ ; done && printf "$brc" > .bashrc && \
+cd "$mhome" && mv \$pkg /usr/local/src/ ; done && printf "$brc" > .bashrc && \
 printf "$bprc" > .bash_profile && bootctl install
 EOF
 )"
