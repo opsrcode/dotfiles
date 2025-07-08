@@ -71,15 +71,15 @@ label: gpt
 device: $based
 unit:sectors
 1:size=1GiB, type=U, name="EFI System Partition"
-2:size=20GiB, type=S, name="Linux Swap Partition"
-3:size=+, type=L, name="Linux Filesystem Partition"
+2:size=20GiB, type=S, name="Swap Area"
+3:size=+, type=L, name="Root Partition"
 EOF
 	sfdisk --delete "$based2" && wipefs -a "$based2" && \
 	sfdisk "$based2" <<EOF
 label: gpt
 device: $based2
 unit:sectors
-1:size=+, type=L, name="Linux Filesystem Partition"
+1:size=+, type=H, name="Home Partition"
 EOF
 	mkfs.fat -F32 "$bootd" && mkfs.ext4 "$rootd" && mkfs.ext4 "$homed" && \
 	mkswap "$swapd" && mount "$rootd" /mnt && mount --mkdir "$bootd" "$boot" && \
@@ -147,8 +147,4 @@ EOF
 	umount -R /mnt && reboot
 }
 
-function main
-{
-	basics && partition && load_pkgs && change_files && chroot_config && boot_config
-}
-main
+basics && partition && load_pkgs && change_files && chroot_config && boot_config
