@@ -1,0 +1,30 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# Maintainer: Thiago Castro <professional-dev@hotmail.com>
+pkgname='ed'
+pkgver='1.21.1'
+pkgrel=1
+pkgdesc='A POSIX-compliant line-oriented text editor.'
+arch=('x86_64')
+url='https://www.gnu.org/software/ed/manual/ed_manual.html'
+license=('GPLv2')
+depends=('glibc' 'sh')
+makedepends=('lzip')
+provides=("$pkgname")
+conflicts=("$pkgname")
+replaces=("$pkgname")
+source=("https://ftp.gnu.org/gnu/ed/ed-$pkgver.tar.lz")
+sha256sums=('SKIP')
+
+build() {
+	tar xf "$pkgname-$pkgver.tar.lz" && cd "$pkgname-$pkgver"
+	./configure && make
+}
+
+package() {
+	cd "$pkgname-$pkgver"
+	sudo make install
+}
