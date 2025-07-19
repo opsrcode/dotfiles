@@ -9,13 +9,13 @@ pkgver='1.0'
 pkgrel=1
 pkgdesc='A pager with WWW capability.'
 arch=('x86_64')
-url="https://salsa.debian.org/debian/w3m"
+url="https://git.sr.ht/~rkta/w3m/"
 license=('custom')
 depends=('glibc' 'gc' 'libx11' 'openssl')
 makedepends=('git')
 provides=("$pkgname")
 replaces=("$pkgname")
-source=("$pkgname::git+$url.git")
+source=("$pkgname::git+$url")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -25,10 +25,11 @@ pkgver() {
 
 build() {
 	cd "$pkgname"
+	CFLAGS+=" -std=gnu17"
 	./configure --prefix=/usr --bindir=/usr/bin --libdir=/usr/lib \
 	            --includedir=/usr/include --mandir=/usr/share/man \
 		    --with-editor=/usr/bin/vim --with-x --with-ssl \
-		    --with-gc --without-imagelib && make
+		    --with-gc --without-imagelib --disable-w3mmailer && make
 }
 
 package() {
