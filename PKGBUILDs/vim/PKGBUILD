@@ -4,7 +4,7 @@
 # then please put 'unknown'.
 
 # Maintainer: Thiago Castro <professional-dev@hotmail.com>
-pkgname='vim-git'
+pkgname='vim'
 pkgver='1.0'
 pkgrel=1
 pkgdesc='A highly configurable text editor built to make creating and changing any kind of text very efficient.'
@@ -14,28 +14,27 @@ license=('Vim')
 depends=('glibc' 'gpm')
 makedepends=('git')
 provides=("$pkgname" 'xxd')
-conflicts=('gvim' 'vim-minimal')
-replaces=("$pkgname")
+conflicts=("$pkgname")
 source=("$pkgname::git+https://github.com/vim/vim.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$pkgname"
+	cd "$srcdir/$pkgname"
 	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd "$pkgname"
-	./configure --with-features=huge --enable-multibyte \
+	cd "$srcdir/$pkgname"
+	./configure --prefix=/usr --with-features=huge --enable-multibyte \
                     --enable-python3interp=yes \
                     --with-python3-command=$PYTHON_VER \
                     --with-python3-config-dir=$(python3-config --configdir) \
                     --enable-perlinterp=yes --enable-gui=gtk2 \
-                    --prefix=/usr
+                    
 	make
 }
 
 package() {
-	cd "$pkgname"
-	make DESTDIR="$pkgdir/" install
+	cd "$srcdir/$pkgname"
+	make DESTDIR="$pkgdir" install
 }

@@ -4,18 +4,18 @@
 # then please put 'unknown'.
 
 # Maintainer: Thiago Castro <professional-dev@hotmail.com>
-pkgname='irssi-git'
+pkgname='dmenu'
 pkgver='1.0'
 pkgrel=1
-pkgdesc='A modular text mode chat client.'
+pkgdesc='A dynamic menu for X.'
 arch=('x86_64')
-url="https://irssi.org/"
-license=('GPL2')
-depends=('glibc' 'openssl' 'perl' 'ncurses')
-makedepends=('git' 'meson' 'ninja')
+url="https://tools.suckless.org/dmenu"
+license=('MIT')
+depends=('glibc' 'libx11' 'libxinerama' 'libxft')
+makedepends=('git')
 provides=("$pkgname")
-replaces=("$pkgname")
-source=("$pkgname::git+https://codeberg.org/irssi/irssi.git")
+conflicts=("$pkgname")
+source=("$pkgname::git+https://git.suckless.org/dmenu")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -23,12 +23,17 @@ pkgver() {
 	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
+prepare() {
+	cd "$srcdir/$pkgname"
+	sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
+}
+
 build() {
-	cd "$pkgname"
-	meson Build && ninja -C Build
+	cd "$srcdir/$pkgname"
+	make
 }
 
 package() {
-	cd "$pkgname"
-	sudo ninja -C Build install
+	cd "$srcdir/$pkgname"
+	make DESTDIR="$pkgdir" clean install
 }

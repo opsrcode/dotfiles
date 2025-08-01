@@ -4,31 +4,32 @@
 # then please put 'unknown'.
 
 # Maintainer: Thiago Castro <professional-dev@hotmail.com>
-pkgname='torsocks-git'
+pkgname='irssi'
 pkgver='1.0'
 pkgrel=1
-pkgdesc='Wrapper to safely torify applications.'
+pkgdesc='A modular text mode chat client.'
 arch=('x86_64')
-url="https://gitlab.torproject.org/tpo/core/torsocks"
+url="https://irssi.org/"
 license=('GPL2')
-depends=('glibc')
-makedepends=('git')
+depends=('glib2' 'openssl' 'perl' 'ncurses')
+makedepends=('git' 'meson' 'ninja' 'pkgconfig')
 provides=("$pkgname")
-replaces=("$pkgname")
-source=("$pkgname::git+$url.git")
+conflicts=("$pkgname")
+source=("$pkgname::git+https://codeberg.org/irssi/irssi.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$pkgname"
+	cd "$srcdir/$pkgname"
 	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd "$pkgname"
-	./autogen.sh && ./configure && make
+	cd "$srcdir/$pkgname"
+	meson setup Build --prefix=/usr
+	ninja -C Build
 }
 
 package() {
-	cd "$pkgname"
-	sudo make install
+	cd "$srcdir/$pkgname"
+	DESTDIR="$pkgdir" ninja -C Build install
 }

@@ -4,7 +4,7 @@
 # then please put 'unknown'.
 
 # Maintainer: Thiago Castro <professional-dev@hotmail.com>
-pkgname='dwm-git'
+pkgname='dwm'
 pkgver='1.0'
 pkgrel=1
 pkgdesc='A dynamic window manager for X.'
@@ -14,21 +14,26 @@ license=('MIT')
 depends=('glibc' 'libx11' 'libxinerama' 'libxft')
 makedepends=('git')
 provides=("$pkgname")
-replaces=("$pkgname")
+conflicts=("$pkgname")
 source=("$pkgname::git+https://git.suckless.org/dwm")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$pkgname"
+	cd "$srcdir/$pkgname"
 	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
+prepare() {
+	cd "$srcdir/$pkgname"
+	sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
+}
+
 build() {
-	cd "$pkgname"
+	cd "$srcdir/$pkgname"
 	make
 }
 
 package() {
-	cd "$pkgname"
-	sudo make clean install
+	cd "$srcdir/$pkgname"
+	make DESTDIR="$pkgdir" clean install
 }

@@ -4,7 +4,7 @@
 # then please put 'unknown'.
 
 # Maintainer: Thiago Castro <professional-dev@hotmail.com>
-pkgname='sbcl-git'
+pkgname='sbcl'
 pkgver='1.0'
 pkgrel=1
 pkgdesc='Steel Bank Common Lisp (SBCL) is a high performance Common Lisp compiler.'
@@ -13,24 +13,22 @@ url="https://sbcl.org/"
 license=('CMU CL')
 makedepends=('git' 'sbcl')
 provides=("$pkgname")
-replaces=("$pkgname")
+conflicts=("$pkgname")
 source=("$pkgname::git+git://git.code.sf.net/p/sbcl/sbcl")
 sha256sums=('SKIP')
 
 pkgver() {
-        cd "$pkgname"
+        cd "$srcdir/$pkgname"
         echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
 build() {
-        cd "$pkgname"
-        chmod 755 make.sh
-        sh make.sh --fancy
+        cd "$srcdir/$pkgname"
+        ./make.sh --prefix=/usr --fancy
 }
 
 package() {
-        cd "$pkgname"
-        chmod 755 install.sh
-        sudo sh install.sh
+        cd "$srcdir/$pkgname"
+        ./install.sh
 }
 

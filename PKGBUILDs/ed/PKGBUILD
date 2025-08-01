@@ -5,26 +5,26 @@
 
 # Maintainer: Thiago Castro <professional-dev@hotmail.com>
 pkgname='ed'
-pkgver='1.21.1'
+pkgver='1.22'
 pkgrel=1
 pkgdesc='A POSIX-compliant line-oriented text editor.'
 arch=('x86_64')
 url='https://www.gnu.org/software/ed/manual/ed_manual.html'
 license=('GPLv2')
-depends=('glibc' 'sh')
+depends=('glibc')
 makedepends=('lzip')
 provides=("$pkgname")
 conflicts=("$pkgname")
-replaces=("$pkgname")
-source=("https://ftp.gnu.org/gnu/ed/ed-$pkgver.tar.lz")
+source=("https://ftp.gnu.org/gnu/ed/ed-${pkgver}.tar.lz")
 sha256sums=('SKIP')
 
 build() {
-	tar xf "$pkgname-$pkgver.tar.lz" && cd "$pkgname-$pkgver"
-	./configure && make
+	cd "$srcdir/${pkgname}-${pkgver}"
+	./configure --prefix=/usr
+	make
 }
 
 package() {
-	cd "$pkgname-$pkgver"
-	sudo make install
+	cd "$srcdir/${pkgname}-${pkgver}"
+	make DESTDIR="$pkgdir" install
 }
