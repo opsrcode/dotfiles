@@ -39,8 +39,8 @@ prepare() {
          Makefile
 
   sed -i -e '/font/s/Liberation Mono/Terminus/' \
-         -e 's/size=12/size=14/' -e '/borderpx =/s/2/0/' \
-         -e '/blinktimeout =/s/800/0/' \
+         -e 's/size=12/size=14/' -e '/borderpx.*=/s/2/0/' \
+         -e '/blinktimeout.*=/s/800/0/' \
          config.def.h
 }
 

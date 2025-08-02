@@ -26,6 +26,10 @@ pkgver() {
 prepare() {
   cd "$srcdir/$pkgname"
   sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
+  sed -i -e '/borderpx.*=/s/1/0/' -e '/showbar.*=/s/1/0/' \
+         -e 's/monospace:size=10/Terminus:size=8/g' \
+         -e '/tags.*=/s/\{.*\}/\{ "1", "2", "3", "4" \}/' \
+         config.def.h
 }
 
 build() {

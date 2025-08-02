@@ -26,6 +26,7 @@ pkgver() {
 prepare() {
   cd "$srcdir/$pkgname"
   sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
+  sed -i 's/monospace:size=10/Terminus:size=8/' config.def.h
 }
 
 build() {
