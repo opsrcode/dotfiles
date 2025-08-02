@@ -30,7 +30,8 @@ timedatectl set-ntp true
 # PARTITION SECTION
 
 # Delete partitions and wipe signatures from sda and sdb
-sfdisk --delete "$SDA_BLOCK" "$SDB_BLOCK"
+sfdisk --delete "$SDA_BLOCK"
+sfdisk --delete "$SDB_BLOCK"
 wipefs -a "$SDA_BLOCK" "$SDB_BLOCK"
 
 # Create new partitions for sda and sdb
