@@ -48,6 +48,6 @@ systemctl enable ufw
 ufw enable
 mkinitcpio
 pacman -Syu
-pacman -Rns $(pacman -Qdtq)
-rm -rf .cache/* /var/cache/pacman/pkg/*
 powertop --calibrate --auto-tune
+rm -rf .cache/* /var/cache/pacman/pkg/*
+pacman -Rns $(pacman -Qdtq)
