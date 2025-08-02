@@ -1,150 +1,166 @@
 #!/bin/sh
 
-repo=$(pwd)
-based='/dev/sda'
-based2='/dev/sdb'
-bootd=$based"1"
-swapd=$based"2"
-rootd=$based"3"
-homed=$based2"1"
-pac="/etc/pacman.d"
-font='ter-114n'
-keymap='us'
-timezone='America/Sao_Paulo'
-user='opsrcode'
-shell='/usr/bin/bash'
-pkgs="$(cat <<EOF
-base base-devel linux linux-firmware xf86-video-amdgpu xf86-video-ati
-amd-ucode dhclient openssh ufw powertop mesa vulkan-radeon polkit git
-libx11 libxinerama libxft freetype2 xorg-xinit xorg-server 
-terminus-font man-db man-pages texinfo ntp
-EOF
-)"
-boot="/mnt/boot"
-etc="/mnt/etc"
-home="/mnt/home/$user"
-vconsole="$(cat <<EOF
-KEYMAP=us
-FONT=ter-114n
-EOF
-)"
-locale='LANG=en_US.UTF-8'
-hostname='archlinux'
-hosts="$(cat <<EOF
-127.0.0.1	localhost
-::1		localhost ip6-localhost ip6-loopback
-EOF
-)"
-sudoers="$user ALL=(ALL:ALL) ALL"
-loader="$(cat <<EOF
-default arch.conf
-console-mode auto
-EOF
-)"
-brc="$(cat <<EOF
-[[ \$- != *i* ]] && return
-PS1='[\u@\h \W]\$ '
-VISUAL='/usr/bin/vim'
-export EDITOR=\"\$VISUAL\"
-set -o vi
-EOF
-)"
-bprc="$(cat <<EOF
-[[ -f ~/.bashrc ]] && . ~/.bashrc
-if [ -z \"\$DISPLAY\" ] && [ \"\$XDG_VTNR\" = 1 ]; then
-	exec startx
-fi
-EOF
-)"
+set -euo pipefail
 
-function basics
-{
-	loadkeys "$keymap" && setfont "$font" && \
-	timedatectl set-timezone "$timezone" && timedatectl set-ntp true 
-}
+DOTFILES=$(pwd)
 
-function partition
-{
-	sfdisk --delete "$based" && wipefs -a "$based" && \
-	sfdisk "$based" <<EOF
+# GLOBAL VARIABLES
+
+SDA_BLOCK="/dev/sda"           # SSD 223.6G
+BOOT_PARTITION="${SDA_BLOCK}1" # FAT (F32) EFI System Partition (GPT)
+SWAP_AREA="${SDA_BLOCK}2"      # Swap Area (2x RAM)
+ROOT_PARTITION="${SDA_BLOCK}3" # EXT4 Root Partition (GPT)
+
+SDB_BLOCK="/dev/sdb"           # SSD 223.6G
+HOME_PARTITION="${SDB_BLOCK}1" # EXT4 Home Partition (GPT)
+
+read -p "Username: " USER
+USER_HOME="/mnt/home/$USER"
+PKGBUILDS="/mnt/home/$USER/.builds"
+
+
+# CONFIGURATION SECTION
+
+loadkeys us
+setfont ter-114n
+timedatectl set-timezone "America/Sao_Paulo"
+timedatectl set-ntp true 
+
+
+# PARTITION SECTION
+
+# Delete partitions and wipe signatures from sda and sdb
+sfdisk --delete "$SDA_BLOCK" "$SDB_BLOCK"
+wipefs -a "$SDA_BLOCK" "$SDB_BLOCK"
+
+# Create new partitions for sda and sdb
+sfdisk "$SDA_BLOCK" <<EOF
 label: gpt
-device: $based
+device: $SDA_BLOCK
 unit:sectors
 1:size=1GiB, type=U, name="EFI System Partition"
-2:size=20GiB, type=S, name="Swap Area"
+2:size=16GiB, type=S, name="Swap Area"
 3:size=+, type=L, name="Root Partition"
 EOF
-	sfdisk --delete "$based2" && wipefs -a "$based2" && \
-	sfdisk "$based2" <<EOF
+
+sfdisk "$SDB_BLOCK" <<EOF
 label: gpt
-device: $based2
+device: $SDB_BLOCK
 unit:sectors
 1:size=+, type=H, name="Home Partition"
 EOF
-	mkfs.fat -F32 "$bootd" && mkfs.ext4 "$rootd" && mkfs.ext4 "$homed" && \
-	mkswap "$swapd" && mount "$rootd" /mnt && mount --mkdir "$bootd" "$boot" && \
- 	mount --mkdir "$homed" /mnt/home && swapon "$swapd"
-}
 
-function load_pkgs
-{
-	reflector --latest 20 --sort rate --country Brazil --save "$pac/mirrorlist" && \
-	pacstrap -K /mnt $pkgs && genfstab -U /mnt >> $etc/fstab
-}
+# Build file systems for partitions and create swap area
+mkfs.fat -F32 "$BOOT_PARTITION"
+mkfs.ext4 "$ROOT_PARTITION"
+mkfs.ext4 "$HOME_PARTITION"
+mkswap "$SWAP_AREA"
 
-function change_files
-{
-	local xi='.xinitrc'
-	printf "$vconsole" > "$etc/vconsole.conf"
-	sed -i '/en_US.UTF-8/s/^#//' "$etc/locale.gen"
-	printf "$locale" > "$etc/locale.conf"
-	printf "$hostname" > "$etc/hostname"
-	printf "$hosts" >> "$etc/hosts"
-	printf "$sudoers" >> "$etc/sudoers"
-	sed -i -e '/^#VerbosePkgLists/s/^#//' \
- 	       -e '/^#\[multilib\]/,/^#Include/s/^#//' "$etc/pacman.conf"
-	sed -i -e '/^MODULES=()/s/()/(amd radeon)/' "$etc/mkinitcpio.conf"
-	mkdir "$home" && cd "$home" && cp "$etc/X11/xinit/xinitrc" "$xi" && \
-	sed -i '/"\$twm" \&/,$d' "$xi" && echo 'exec dwm' >> "$xi"
-	cd $repo
-}
+# Mount partitions and enable swap area for swapping
+mount "$ROOT_PARTITION" /mnt/
+mount --mkdir "$BOOT_PARTITION" /mnt/boot/
+mount --mkdir "$HOME_PARTITION" /mnt/home/
+swapon "$SWAP_AREA"
 
-function chroot_config
-{
-	local mhome="/home/$user"
-	local pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git')
 
-	cd "$home" && for pkg in "${pkgs[@]}"; do
-	mkdir $pkg && cp "$repo/pkgbuild/$pkg" "$pkg/PKGBUILD"
-       	done && cd "$repo" && cp -r .vim* "$home"
+# PACKAGES SECTION
 
-	arch-chroot /mnt "$shell" -c "$(cat <<EOF
-passwd && ln -sf "/usr/share/zoneinfo/$timezone" /etc/localtime
-hwclock --systohc && locale-gen && useradd -m -g users -s "$shell" "$user"
-passwd "$user" && pacman -Syyuu && chown -R "$user":users "$mhome" && cd "$mhome" 
-pkgs=('vim-git' 'dwm-git' 'st-git' 'dmenu-git') && \
-for pkg in \${pkgs[@]} ; do cd \$pkg && runuser -u "$user" -- makepkg -sri
-cd "$mhome" && mv \$pkg /usr/local/src/ ; done && printf "$brc" > .bashrc && \
-printf "$bprc" > .bash_profile && bootctl install
+# Retrieve and filter the latest Pacman mirror list
+reflector --latest 20 --sort rate --country Brazil \
+          --save /etc/pacman.d/mirrorlist
+
+# Set up the base system and install necessary packages
+pacstrap -K /mnt base base-devel linux linux-firmware \
+                 xf86-video-amdgpu xf86-video-ati amd-ucode dhclient \
+                 mesa polkit vulkan-radeon powertop terminus-font ufw \
+                 git openssh xorg-server xorg-xinit libx11 libxinerama \
+                 libxft freetype2 man-db man-pages texinfo
+
+genfstab -U /mnt >> /mnt/etc/fstab
+
+
+# MOUNTED BLOCK CONFIGURATION
+
+etc="/mnt/etc"
+xinitrc="$USER_HOME/.xinitrc"
+
+cat <<EOF > "$etc/vconsole.conf"
+KEYMAP=us
+FONT=ter-114n
+EOF
+
+cat <<EOF > "$etc/hosts"
+127.0.0.1	localhost
+::1		localhost
+EOF
+
+# Intel => MODULES=(i915)
+sed -i '/^MODULES/s/()/(amd radeon)/' "$etc/mkinitcpio.conf"
+sed -i '/en_US.UTF-8/s/^#//' "$etc/locale.gen"
+sed -i -e '/VerbosePkgLists$/s/^#//' \
+       -e '/multilib\]/,/Include.*mirrorlist/s/^#//' \
+       "$etc/pacman.conf"
+
+printf "LANG=en_US.UTF-8" > "$etc/locale.conf"
+printf "archlinux" > "$etc/hostname"
+
+mv post-arch-install.sh "$USER_HOME"
+mkdir "$PKGBUILDS"
+mv "$DOTFILES/PKGBUILDs" "$PKGBUILDS"
+
+arch-chroot /mnt /bin/bash -c "$(cat <<EOF
+passwd root
+ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+hwclock --systohc
+locale-gen
+useradd -m -g users -G wheel -s /bin/bash $USER
+passwd $USER
+bootctl install
+pacman -Syu
+chmod +x $PKGBUILDS/build.sh
+./$PKGBUILDS/build.sh dwm st dmenu ed
 EOF
 )"
-}
 
-function boot_config
-{
-	local ldir="$boot/loader"
-	printf "$loader" > "$ldir/loader.conf" && \
-	local pid="$(blkid $rootd | awk -F'PARTUUID=' '{print $2}' | sed 's/"//g')" && \
-	local arch="$(cat <<EOF
-title	Arch Linux
-linux	/vmlinuz-linux
-initrd	/amd-ucode.img
-initrd	/initramfs-linux.img
-options	root=PARTUUID=$pid rootfstype=ext4 rw
+sed -i '/%wheel.*) ALL/s/^# //' "$etc/sudoers"
+sed -e '/^"\$twm"/,$d' -e '/^xclock/,+2d' \
+  "$etc/X11/xinit/xinitrc" > "$xinitrc"
+printf 'exec "$dwm"' >> "$xinitrc"
+
+cat <<EOF > "$USER_HOME/.bashrc"
+[[ \$- != *i* ]] && return
+alias ls="ls --classify --color=never"
+alias grep="grep --color=never"
+PS1='[\u@\h \W]\$ '
 EOF
-)"
-	printf "$arch" > "$ldir/entries/arch.conf"
-	umount -R /mnt && reboot
-}
 
-basics && partition && load_pkgs && change_files && chroot_config && boot_config
+cat <<EOF > "$USER_HOME/.bash_profile"
+[[ -f ~/.bashrc ]] && . ~/.bashrc
+if [ -z "\$DISPLAY" ] && [ "\$XDG_VTNR" = 1 ]; then
+  exec startx
+fi
+EOF
+
+
+# BOOT SECTION
+
+loader_dir="/mnt/boot/loader"
+pid=$(
+  blkid $ROOT_PARTITION | awk -F'PARTUUID=' {print $2} | sed 's/"//g'
+)
+
+# Intel => initrd  /intel-ucode.img
+cat <<EOF > "$loader_dir/entries/arch.conf"
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /amd-ucode.img
+initrd  /initramfs-linux.img
+options root=PARTUUID=$pid rootfstype=ext4 rw
+EOF
+
+cat <<EOF > "$loader_dir/loader.conf"
+default arch.conf
+console-mode auto
+EOF
+
+umount -R /mnt && reboot
