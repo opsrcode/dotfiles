@@ -118,8 +118,8 @@ bootctl install
 pacman -Syu
 mv /root/post-arch-install.sh $USER_HOME
 mv /root/PKGBUILDs $PKGBUILDS
-./$PKGBUILDS/build.sh dwm st dmenu ed
 chmod +x $PKGBUILDS/build.sh $USER_HOME/post-arch-install.sh
+./$PKGBUILDS/build.sh dwm st dmenu ed
 EOF
 )"
 
