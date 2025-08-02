@@ -25,11 +25,9 @@ pkgver() {
 
 prepare() {
   cd "$srcdir/$pkgname"
-  local terminfo_patch='$(DESTDIR)$(PREFIX)/share/st/terminfo'
-  sed -i -e "/tic/ i\
-	mkdir -p $terminfo_patch"
-         -e "/tic/s|st\.info|-o $terminfo_patch st.info|"
-         Makefile
+  local terminfo_patch='share/st/terminfo'
+  sed -i "/mkdir.*bin/{p;/bin/s|bin|$terminfo_patch|;}" Makefile
+  sed -i "/tic/s|st\.info|-o \$(DESTDIR)\$(PREFIX)/$terminfo_patch st.info|" Makefile
   sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
   patchfile='st-expected-anysize-0.9.diff'
   curl -O "https://st.suckless.org/patches/anysize/$patchfile"
