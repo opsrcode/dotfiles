@@ -106,8 +106,7 @@ printf "LANG=en_US.UTF-8" > "$etc/locale.conf"
 printf "archlinux" > "$etc/hostname"
 
 mv "$DOTFILES/post-arch-install.sh" "$USER_HOME"
-mkdir "$PKGBUILDS"
-mv "$DOTFILES/PKGBUILDs" "$PKGBUILDS"
+mv "$DOTFILES/PKGBUILDs" /mnt/root/
 
 arch-chroot /mnt /bin/bash -c "$(cat <<EOF
 passwd root
@@ -118,6 +117,7 @@ useradd -m -g users -G wheel -s /bin/bash $USER
 passwd $USER
 bootctl install
 pacman -Syu
+mv /root/PKGBUILDs $PKGBUILDS
 chmod +x $PKGBUILDS/build.sh
 ./$PKGBUILDS/build.sh dwm st dmenu ed
 EOF
