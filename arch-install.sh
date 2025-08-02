@@ -164,4 +164,4 @@ default arch.conf
 console-mode auto
 EOF
 
-umount -R /mnt && reboot
+umount -R /mnt
