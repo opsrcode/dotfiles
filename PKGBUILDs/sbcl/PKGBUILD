@@ -18,17 +18,17 @@ source=("$pkgname::git+git://git.code.sf.net/p/sbcl/sbcl")
 sha256sums=('SKIP')
 
 pkgver() {
-        cd "$srcdir/$pkgname"
-        echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+  cd "$srcdir/$pkgname"
+  echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
 build() {
-        cd "$srcdir/$pkgname"
-        ./make.sh --prefix=/usr --fancy
+  cd "$srcdir/$pkgname"
+  ./make.sh --prefix=/usr --fancy
 }
 
 package() {
-        cd "$srcdir/$pkgname"
-        ./install.sh
+  cd "$srcdir/$pkgname"
+  ./install.sh
 }
 

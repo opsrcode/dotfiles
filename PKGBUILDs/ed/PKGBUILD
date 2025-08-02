@@ -19,12 +19,12 @@ source=("https://ftp.gnu.org/gnu/ed/ed-${pkgver}.tar.lz")
 sha256sums=('SKIP')
 
 build() {
-	cd "$srcdir/${pkgname}-${pkgver}"
-	./configure --prefix=/usr
-	make
+  cd "$srcdir/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr
+  make
 }
 
 package() {
-	cd "$srcdir/${pkgname}-${pkgver}"
-	make DESTDIR="$pkgdir" install
+  cd "$srcdir/${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
 }

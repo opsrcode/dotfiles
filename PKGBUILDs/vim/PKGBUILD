@@ -19,22 +19,22 @@ source=("$pkgname::git+https://github.com/vim/vim.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$pkgname"
-	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+  cd "$srcdir/$pkgname"
+  echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd "$srcdir/$pkgname"
-	./configure --prefix=/usr --with-features=huge --enable-multibyte \
-                    --enable-python3interp=yes \
-                    --with-python3-command=$PYTHON_VER \
-                    --with-python3-config-dir=$(python3-config --configdir) \
-                    --enable-perlinterp=yes --enable-gui=gtk2 \
-                    
-	make
+  cd "$srcdir/$pkgname"
+  ./configure --prefix=/usr --with-features=huge --enable-multibyte \
+              --enable-python3interp=yes \
+              --with-python3-command=$PYTHON_VER \
+              --with-python3-config-dir=$(python3-config --configdir) \
+              --enable-perlinterp=yes --enable-gui=gtk2 \
+              
+  make
 }
 
 package() {
-	cd "$srcdir/$pkgname"
-	make DESTDIR="$pkgdir" install
+  cd "$srcdir/$pkgname"
+  make DESTDIR="$pkgdir" install
 }

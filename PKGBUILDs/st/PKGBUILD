@@ -19,24 +19,28 @@ source=("$pkgname::git+https://git.suckless.org/st")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$pkgname"
-	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+  cd "$srcdir/$pkgname"
+  echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
 prepare() {
-	cd "$srcdir/$pkgname"
-	sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
-	patchfile='st-expected-anysize-0.9.diff'
-	curl -O "https://st.suckless.org/patches/anysize/$patchfile"
-	patch -i "$patchfile"
+  cd "$srcdir/$pkgname"
+  local terminfo_patch='$(DESTDIR)$(PREFIX)/share/st/terminfo'
+  sed -i -e "/tic/ i\
+	mkdir -p $terminfo_patch"
+         -e "/tic/s|st\.info|-o $terminfo_patch st.info|"
+  sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
+  patchfile='st-expected-anysize-0.9.diff'
+  curl -O "https://st.suckless.org/patches/anysize/$patchfile"
+  patch -i "$patchfile"
 }
 
 build() {
-	cd "$srcdir/$pkgname"
-	make
+  cd "$srcdir/$pkgname"
+  make
 }
 
 package() {
-	cd "$srcdir/$pkgname"
-	make DESTDIR="$pkgdir" clean install
+  cd "$srcdir/$pkgname"
+  make DESTDIR="$pkgdir" clean install
 }

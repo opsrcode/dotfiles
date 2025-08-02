@@ -19,20 +19,20 @@ source=("$pkgname::git+$url")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$pkgname"
-	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+  cd "$srcdir/$pkgname"
+  echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd "$srcdir/$pkgname"
-	CFLAGS+=' -std=gnu17'
-	PREFIX='/usr'
-	./configure --prefix="$PREFIX" --bindir="$PREFIX/bin" \
-		    --libdir="$PREFIX/lib" --includedir="$PREFIX/include" \
-		    --mandir="$PREFIX/share/man" \
-		    --with-editor="$PREFIX/bin/vim" --with-x --with-ssl \
-		    --with-gc --without-imagelib --disable-w3mmailer
-	make
+  cd "$srcdir/$pkgname"
+  CFLAGS+=' -std=gnu17'
+  PREFIX='/usr'
+  ./configure --prefix="$PREFIX" --bindir="$PREFIX/bin" \
+            --libdir="$PREFIX/lib" --includedir="$PREFIX/include" \
+  	    --mandir="$PREFIX/share/man" \
+            --with-editor="$PREFIX/bin/vim" --with-x --with-ssl \
+  	    --with-gc --without-imagelib --disable-w3mmailer
+  make
 }
 
 package() {

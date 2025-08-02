@@ -19,17 +19,17 @@ source=("$pkgname::git+https://codeberg.org/irssi/irssi.git")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$pkgname"
-	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+  cd "$srcdir/$pkgname"
+  echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd "$srcdir/$pkgname"
-	meson setup Build --prefix=/usr
-	ninja -C Build
+  cd "$srcdir/$pkgname"
+  meson setup Build --prefix=/usr
+  ninja -C Build
 }
 
 package() {
-	cd "$srcdir/$pkgname"
-	DESTDIR="$pkgdir" ninja -C Build install
+  cd "$srcdir/$pkgname"
+  DESTDIR="$pkgdir" ninja -C Build install
 }

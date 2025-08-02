@@ -19,21 +19,21 @@ source=("$pkgname::git+https://git.suckless.org/dwm")
 sha256sums=('SKIP')
 
 pkgver() {
-	cd "$srcdir/$pkgname"
-	echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+  cd "$srcdir/$pkgname"
+  echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
 prepare() {
-	cd "$srcdir/$pkgname"
-	sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
+  cd "$srcdir/$pkgname"
+  sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
 }
 
 build() {
-	cd "$srcdir/$pkgname"
-	make
+  cd "$srcdir/$pkgname"
+  make
 }
 
 package() {
-	cd "$srcdir/$pkgname"
-	make DESTDIR="$pkgdir" clean install
+  cd "$srcdir/$pkgname"
+  make DESTDIR="$pkgdir" clean install
 }
