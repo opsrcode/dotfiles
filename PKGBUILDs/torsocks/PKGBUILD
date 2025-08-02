@@ -19,7 +19,7 @@ source=("$pkgname::git+$url.git")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/pkgname"
+  cd "$srcdir/$pkgname"
   echo "$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
