@@ -106,7 +106,7 @@ printf "archlinux" > "$etc/hostname"
 
 mv PKGBUILDs post-arch-install.sh /mnt/root/
 chroot_uhome="/home/$USER/"
-pkgbuilds="$chroot_user_home/.builds"
+pkgbuilds="$chroot_uhome/.builds"
 arch-chroot /mnt /bin/bash -c "$(cat <<EOF
 passwd root
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
