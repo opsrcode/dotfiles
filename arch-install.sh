@@ -105,7 +105,7 @@ printf "LANG=en_US.UTF-8" > "$etc/locale.conf"
 printf "archlinux" > "$etc/hostname"
 
 mv PKGBUILDs post-arch-install.sh /mnt/root/
-chroot_user_home="/home/$USER/"
+chroot_uhome="/home/$USER/"
 pkgbuilds="$chroot_user_home/.builds"
 arch-chroot /mnt /bin/bash -c "$(cat <<EOF
 passwd root
@@ -116,10 +116,10 @@ useradd -m -g users -G wheel -s /bin/bash $USER
 passwd $USER
 bootctl install
 pacman -Syu
-mv /root/post-arch-install.sh $chroot_user_home
+mv /root/post-arch-install.sh $chroot_uhome
 mv /root/PKGBUILDs $pkgbuilds
-chown -R $USER:users $pkgbuilds $chroot_user_home/post-arch-install.sh
-chmod +x $pkgbuilds/build.sh $chroot_user_home/post-arch-install.sh
+chown -R $USER:users $pkgbuilds $chroot_uhome/post-arch-install.sh
+chmod +x $pkgbuilds/build.sh $chroot_uhome/post-arch-install.sh
 ./$pkgbuilds/build.sh dwm st dmenu ed
 EOF
 )"
