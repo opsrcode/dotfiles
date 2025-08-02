@@ -106,7 +106,7 @@ printf "archlinux" > "$etc/hostname"
 sed -i '/%wheel.*) ALL/s/^# //' "$etc/sudoers"
 
 mv PKGBUILDs post-arch-install.sh /mnt/root/
-chroot_uhome="/home/$USER/"
+chroot_uhome="/home/$USER"
 pkgbuilds="$chroot_uhome/.builds"
 
 arch-chroot /mnt /bin/bash -c "$(cat <<EOF
@@ -122,7 +122,7 @@ mv /root/post-arch-install.sh $chroot_uhome
 mv /root/PKGBUILDs $pkgbuilds
 chown -R $USER:users $pkgbuilds $chroot_uhome/post-arch-install.sh
 chmod +x $pkgbuilds/build.sh $chroot_uhome/post-arch-install.sh
-./$pkgbuilds/build.sh dwm st dmenu ed
+sh $pkgbuilds/build.sh dwm st dmenu ed
 EOF
 )"
 
