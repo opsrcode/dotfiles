@@ -29,6 +29,6 @@ build() {
 
 package() {
   cd "$srcdir/$pkgname"
-  ./install.sh
+  INSTALL_ROOT="$pkgdir/usr" ./install.sh
 }
 
