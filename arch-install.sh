@@ -103,10 +103,12 @@ sed -i -e '/VerbosePkgLists$/s/^#//' \
 
 printf "LANG=en_US.UTF-8" > "$etc/locale.conf"
 printf "archlinux" > "$etc/hostname"
+sed -i '/%wheel.*) ALL/s/^# //' "$etc/sudoers"
 
 mv PKGBUILDs post-arch-install.sh /mnt/root/
 chroot_uhome="/home/$USER/"
 pkgbuilds="$chroot_uhome/.builds"
+
 arch-chroot /mnt /bin/bash -c "$(cat <<EOF
 passwd root
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
@@ -124,7 +126,6 @@ chmod +x $pkgbuilds/build.sh $chroot_uhome/post-arch-install.sh
 EOF
 )"
 
-sed -i '/%wheel.*) ALL/s/^# //' "$etc/sudoers"
 sed -e '/^"\$twm"/,$d' -e '/^xclock/,+2d' \
   "$etc/X11/xinit/xinitrc" > "$xinitrc"
 printf 'exec "$dwm"' >> "$xinitrc"
