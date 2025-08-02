@@ -29,6 +29,7 @@ prepare() {
   sed -i -e "/tic/ i\
 	mkdir -p $terminfo_patch"
          -e "/tic/s|st\.info|-o $terminfo_patch st.info|"
+         Makefile
   sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
   patchfile='st-expected-anysize-0.9.diff'
   curl -O "https://st.suckless.org/patches/anysize/$patchfile"
