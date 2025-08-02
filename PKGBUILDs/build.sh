@@ -2,7 +2,10 @@
 
 set -euo pipefail
 
-PKGBUILDS="/home/$USER/.builds/"
+PKGBUILDS="/home/$USER/.builds"
+if [[ "$USER" == "root" ]]; then
+  read -p "Username: " USER
+fi
 
 for pkg in "$@"; do
   cd "$PKGBUILDS/$pkg"
@@ -11,5 +14,6 @@ for pkg in "$@"; do
   cd "$PKGBUILDS"
 done
 
-pkgs="/^IgnorePkg/s/=/= $@/"
-sed -i -e '/#IgnorePkg/s/#//' -e "$pkgs" /etc/pacman.conf
+pacman_conf="/etc/pacman.conf"
+sed -i '/#IgnorePkg/s/#//' "$pacman_conf"
+sed -i "/^IgnorePkg/s/=/= $@/" "$pacman_conf"
