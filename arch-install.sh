@@ -126,7 +126,7 @@ sh $pkgbuilds/build.sh dwm st dmenu ed
 EOF
 )"
 
-sed -e '/^"\$twm"/,$d' -e '/^xclock/,+2d' \
+sed -e '/^"\$twm"/,$d' -e '/^xclock/,+1d' \
   "$etc/X11/xinit/xinitrc" > "$xinitrc"
 printf 'exec "$dwm"' >> "$xinitrc"
 
