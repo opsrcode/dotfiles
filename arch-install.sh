@@ -16,7 +16,6 @@ HOME_PARTITION="${SDB_BLOCK}1" # EXT4 Home Partition (GPT)
 
 read -p "Username: " USER
 USER_HOME="/mnt/home/$USER"
-PKGBUILDS="$USER_HOME/.builds"
 
 
 # CONFIGURATION SECTION
@@ -106,7 +105,8 @@ printf "LANG=en_US.UTF-8" > "$etc/locale.conf"
 printf "archlinux" > "$etc/hostname"
 
 mv PKGBUILDs post-arch-install.sh /mnt/root/
-
+chroot_user_home="/home/$USER/"
+pkgbuilds="$chroot_user_home/.builds"
 arch-chroot /mnt /bin/bash -c "$(cat <<EOF
 passwd root
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
@@ -116,10 +116,10 @@ useradd -m -g users -G wheel -s /bin/bash $USER
 passwd $USER
 bootctl install
 pacman -Syu
-mv /root/post-arch-install.sh $USER_HOME
-mv /root/PKGBUILDs $PKGBUILDS
-chmod +x $PKGBUILDS/build.sh $USER_HOME/post-arch-install.sh
-./$PKGBUILDS/build.sh dwm st dmenu ed
+mv /root/post-arch-install.sh $chroot_user_home
+mv /root/PKGBUILDs $pkgbuilds
+chmod +x $pkgbuilds/build.sh $chroot_user_home/post-arch-install.sh
+./$pkgbuilds/build.sh dwm st dmenu ed
 EOF
 )"
 
