@@ -127,7 +127,7 @@ EOF
 )"
 
 sed -e '/^"\$twm"/,$d' -e '/^xclock/,+1d' \
-  "$etc/X11/xinit/xinitrc" > "$xinitrc"
+    "$etc/X11/xinit/xinitrc" > "$xinitrc"
 printf 'exec "$dwm"' >> "$xinitrc"
 
 cat <<EOF > "$USER_HOME/.bashrc"

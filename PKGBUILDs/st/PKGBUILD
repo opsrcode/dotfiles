@@ -24,14 +24,24 @@ pkgver() {
 }
 
 prepare() {
+  local terminfo="share/st/terminfo"
+  local dest_prefix_terminfo="-o \$(DESTDIR)\$(PREFIX)/$terminfo"
+  local anysize_patch='st-expected-anysize-0.9.diff'
+
   cd "$srcdir/$pkgname"
-  local terminfo_patch='share/st/terminfo'
-  sed -i "/mkdir.*bin/{p;/bin/s|bin|$terminfo_patch|;}" Makefile
-  sed -i "/tic/s|st\.info|-o \$(DESTDIR)\$(PREFIX)/$terminfo_patch st.info|" Makefile
+
   sed -i 's|^PREFIX = /usr/local|PREFIX = /usr|' config.mk
-  patchfile='st-expected-anysize-0.9.diff'
-  curl -O "https://st.suckless.org/patches/anysize/$patchfile"
-  patch -i "$patchfile"
+  curl -O "https://st.suckless.org/patches/anysize/$anysize_patch"
+  patch -i "$anysize_patch"
+
+  sed -i -e "/mkdir.*bin/{p;/bin/s|bin|$terminfo|;}" \
+         -e "/tic/s|st\.info|$dest_prefix_terminfo st.info|" \
+         Makefile
+
+  sed -i -e '/font/s/Liberation Mono/Terminus/' \
+         -e 's/size=12/size=14/' -e '/borderpx =/s/2/0/' \
+         -e '/blinktimeout =/s/800/0/' \
+         config.def.h
 }
 
 build() {
