@@ -7,13 +7,12 @@ if [[ "$USER" == "root" ]]; then
 fi
 PKGBUILDS="/home/$USER/.builds"
 
+pacman_conf="/etc/pacman.conf"
+sed -i '/#IgnorePkg/s/#//' "$pacman_conf"
 for pkg in "$@"; do
   cd "$PKGBUILDS/$pkg"
   runuser -u "$USER" -- makepkg -sr
   pacman -U *.pkg.tar.zst
+  sed -i "/^IgnorePkg/s/=/= $pkg/" "$pacman_conf"
   cd "$PKGBUILDS"
 done
-
-pacman_conf="/etc/pacman.conf"
-sed -i '/#IgnorePkg/s/#//' "$pacman_conf"
-sed -i "/^IgnorePkg/s/=/= $@/" "$pacman_conf"
