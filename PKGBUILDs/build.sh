@@ -2,10 +2,10 @@
 
 set -euo pipefail
 
-PKGBUILDS="/home/$USER/.builds"
 if [[ "$USER" == "root" ]]; then
   read -p "Username: " USER
 fi
+PKGBUILDS="/home/$USER/.builds"
 
 for pkg in "$@"; do
   cd "$PKGBUILDS/$pkg"
