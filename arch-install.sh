@@ -104,7 +104,7 @@ sed -i -e '/VerbosePkgLists$/s/^#//' \
 printf "LANG=en_US.UTF-8" > "$etc/locale.conf"
 printf "archlinux" > "$etc/hostname"
 
-mv post-arch-install.sh "$USER_HOME"
+mv "$DOTFILES/post-arch-install.sh" "$USER_HOME"
 mkdir "$PKGBUILDS"
 mv "$DOTFILES/PKGBUILDs" "$PKGBUILDS"
 
