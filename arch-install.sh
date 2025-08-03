@@ -74,7 +74,7 @@ pacstrap -K /mnt base base-devel linux linux-firmware-amdgpu \
                  linux-firmware-radeon xf86-video-amdgpu \
                  xf86-video-ati amd-ucode dhclient mesa polkit \
                  vulkan-radeon powertop terminus-font ufw git openssh \
-                 xorg-server xorg-xinit man-db man-pages texinfo
+                 xorg-server xorg-xinit man-db man-pages texinfo ntp
                  # linux-firmware-intel networkmanager bluez bluez-utils
                  # brightnessctl vulkan-intel pipewire-pulse intel-ucode
                  # xf86-video-intel
