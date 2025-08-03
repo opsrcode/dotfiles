@@ -70,11 +70,14 @@ reflector --latest 20 --sort rate --country Brazil \
           --save /etc/pacman.d/mirrorlist
 
 # Set up the base system and install necessary packages
-pacstrap -K /mnt base base-devel linux linux-firmware \
-                 xf86-video-amdgpu xf86-video-ati amd-ucode dhclient \
-                 mesa polkit vulkan-radeon powertop terminus-font ufw \
-                 git openssh xorg-server xorg-xinit libx11 libxinerama \
-                 libxft freetype2 man-db man-pages texinfo
+pacstrap -K /mnt base base-devel linux linux-firmware-amdgpu \
+                 linux-firmware-radeon xf86-video-amdgpu \
+                 xf86-video-ati amd-ucode dhclient mesa polkit \
+                 vulkan-radeon powertop terminus-font ufw git openssh \
+                 xorg-server xorg-xinit man-db man-pages texinfo
+                 # linux-firmware-intel networkmanager bluez bluez-utils
+                 # brightnessctl vulkan-intel pipewire-pulse intel-ucode
+                 # xf86-video-intel
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
