@@ -24,12 +24,14 @@ EOF
   cd /tmp/
 
   git clone https://github.com/AdnanHodzic/auto-cpufreq.git
+  git clone https://github.com/jguer/yay.git
+  chown -R "$USER":users auto-cpufreq/ yay/
+
   cd auto-cpufreq/
   ./auto-cpufreq-installer
   auto-cpufreq --install
 
-  git clone https://github.com/jguer/yay.git
-  cd yay/
+  cd ../yay/
   runuser -u "$USER" -- /bin/bash -c "$(cat <<EOF
 makepkg -sri
 yay -Y --gendb
@@ -39,6 +41,7 @@ EOF
 )"
 
   cd "$HOME"
+  rm -rf /tmp/{auto-cpufreq,yay}
 else
   dhclient
 fi
