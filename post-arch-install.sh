@@ -24,7 +24,7 @@ EOF
   cd /tmp/
 
   git clone https://github.com/AdnanHodzic/auto-cpufreq.git
-  git clone https://github.com/jguer/yay.git
+  git clone https://aur.archlinux.org/yay.git
   chown -R "$USER":users auto-cpufreq/ yay/
 
   cd auto-cpufreq/
