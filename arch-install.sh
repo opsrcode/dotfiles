@@ -152,7 +152,7 @@ EOF
 
 loader_dir="/mnt/boot/loader"
 pid=$(
-  blkid $ROOT_PARTITION | awk -F'PARTUUID=' {print $2} | sed 's/"//g'
+  blkid $ROOT_PARTITION | awk -F'PARTUUID=' '{print $2}' | sed 's/"//g'
 )
 
 # Intel => initrd  /intel-ucode.img
