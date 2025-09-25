@@ -120,15 +120,15 @@ alias grep='grep --color=never'
 alias volume='pactl set-sink-volume @DEFAULT_SINK@'
 EOF
 
-cat <<EOF > "$USER_HOME/.bashrc"
-[[ \$- != *i* ]] && return
+cat <<'EOF' > "$USER_HOME/.bashrc"
+[[ $- != *i* ]] && return
 [[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
-PS1='[\u@\h \W]\$ '
+PS1='[\u@\h \w $?]$ '
 EOF
 
-cat <<EOF > "$USER_HOME/.bash_profile"
+cat <<'EOF' > "$USER_HOME/.bash_profile"
 [[ -f ~/.bashrc ]] && . ~/.bashrc
-if [ -z "\$DISPLAY" ] && [ "\$XDG_VTNR" = 1 ]; then
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
   exec startx
 fi
 EOF
