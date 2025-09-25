@@ -1,18 +1,29 @@
-#!/bin/sh
+#!/bin/env bash
 
 set -euo pipefail
 
-if [[ "$USER" == "root" ]]; then
-  read -p "Username: " USER
+if [ "$#" -lt 2 ]; then
+  echo "Usage: $0 <username> <pkg_name> [pkg_name...]" >&2
+  exit 1
 fi
-PKGBUILDS="/home/$USER/.builds"
 
-pacman_conf="/etc/pacman.conf"
-sed -i '/#IgnorePkg/s/#//' "$pacman_conf"
+TARGET_USER="$1"
+shift
+
+if ! id "$TARGET_USER" >/dev/null 2>&1 ; then
+  echo "Error: User '$TARGET_USER' doees not exist." >&2
+  exit 1
+fi
+
+PKGBUILDS_DIR="/home/$TARGET_USER/.cache/builds"
+
 for pkg in "$@"; do
-  cd "$PKGBUILDS/$pkg"
-  runuser -u "$USER" -- makepkg -sr
-  pacman -U *.pkg.tar.zst
-  sed -i "/^IgnorePkg/s/=/= $pkg/" "$pacman_conf"
-  cd "$PKGBUILDS"
+  PKG_DIR="$PKGBUILDS_DIR/$pkg"
+  if [ ! -d "$PKG_DIR" ]; then
+    echo "Warning: Directory for package '$pkg' not found. Skipping." >&2
+    continue
+  fi
+
+  cd "$PKG_DIR"
+  runuser -u "$TARGET_USER" -- makepkg -sri --noconfirm
 done
