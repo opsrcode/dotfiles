@@ -116,7 +116,7 @@ EOF
 cat <<'EOF' > "$USER_HOME/.bashrc"
 [[ $- != *i* ]] && return
 [[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
-PS1='[\u@\h \w $?]$ '
+PS1='[\u@\h \W]$ '
 EOF
 
 cat <<'EOF' > "$USER_HOME/.bash_profile"
