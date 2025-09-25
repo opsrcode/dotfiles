@@ -49,4 +49,4 @@ mkinitcpio -P
 
 pacman -Syyuu --noconfirm
 pacman -Rns "$(pacman -Qdtq)" --noconfirm
-rm -rf .cache/* /var/cache/pacman/pkg/*
+rm -rf /var/cache/pacman/pkg/*
