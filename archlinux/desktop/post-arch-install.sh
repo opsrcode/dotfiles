@@ -17,7 +17,3 @@ systemctl enable ufw.service
 ufw enable
 
 mkinitcpio -P
-
-pacman -Syyuu --noconfirm
-pacman -Rns "$(pacman -Qdtq)" --noconfirm
-rm -rf ~/.cache/* /var/cache/pacman/pkg/*
