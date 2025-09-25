@@ -17,9 +17,6 @@ PKGBUILDS="$CHROOT_UHOME/.cache/builds"
 CHROOT_PKGBUILDS="/mnt${PKGBUILDS}"
 XINITRC="$USER_HOME/.xinitrc"
 LOADER_DIR=/mnt/boot/loader
-PID=$(
-  blkid $ROOT_PARTITION | awk -F'PARTUUID=' '{print $2}' | sed 's/"//g'
-)
 
 
 # CONFIGURATION SECTION
@@ -133,6 +130,9 @@ EOF
 
 # BOOT SECTION
 
+PID=$(
+  blkid $ROOT_PARTITION | awk -F'PARTUUID=' '{print $2}' | sed 's/"//g'
+)
 cat <<EOF > "$LOADER_DIR/entries/arch.conf"
 title   Arch Linux
 linux   /vmlinuz-linux
