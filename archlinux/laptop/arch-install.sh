@@ -14,7 +14,8 @@ USER_HOME="/mnt/home/$USERNAME"
 
 ETC=/mnt/etc
 CHROOT_UHOME="/home/$USERNAME"
-PKGBUILDS="$CHROOT_UHOME/.cache/builds"
+PKGBUILDS="/home/$USERNAME/.cache/builds"
+CHROOT_PKGBUILDS="/mnt${PKGBUILDS}"
 XINITRC="$USER_HOME/.xinitrc"
 LOADER_DIR=/mnt/boot/loader
 PID=$(
@@ -50,7 +51,9 @@ mkfs.ext4 "$ROOT_PARTITION"
 
 mount "$ROOT_PARTITION" /mnt/
 swapon "$SWAP_AREA"
-mount --mkdir "$BOOT_PARTITION" /mnt/boot/
+mkdir -v /mnt/boot/
+chmod 700 /mnt/boot/
+mount -o uid=0,gid=0,fmask=0077,dmask=0077 "$BOOT_PARTITION" /mnt/boot/
 
 
 # PACKAGES SECTION
@@ -89,8 +92,8 @@ printf 'LANG=en_US.UTF-8' > "$ETC/locale.conf"
 printf 'archlinux' > "$ETC/hostname"
 sed -i '/%wheel.*) ALL/s/^# //' "$ETC/sudoers"
 
-mkdir -pv "$PKGBUILDS"
-mv ../PKGBUILDs ./post-arch-install.sh "/mnt${PKGBUILDS}"
+mkdir -pv "$CHROOT_PKGBUILDS"
+mv ../PKGBUILDs/* ./post-arch-install.sh "$CHROOT_PKGBUILDS"
 
 arch-chroot /mnt /bin/bash -c "$(cat <<EOF
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime

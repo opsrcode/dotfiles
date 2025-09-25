@@ -17,6 +17,7 @@ USER_HOME="/mnt/home/$USERNAME"
 
 ETC=/mnt/etc
 PKGBUILDS="/home/$USERNAME/.cache/builds"
+CHROOT_PKGBUILDS="/mnt${PKGBUILDS}"
 XINITRC="$USER_HOME/.xinitrc"
 LOADER_DIR="/mnt/boot/loader"
 PID=$(
@@ -47,13 +48,6 @@ unit: sectors
 3: size=+, type=linux, name="Root Partition"
 EOF
 
-mkfs.fat -F32 "$BOOT_PARTITION"
-mkswap "$SWAP_AREA"
-mkfs.ext4 "$ROOT_PARTITION"
-mount "$ROOT_PARTITION" /mnt/
-mount --mkdir "$BOOT_PARTITION" /mnt/boot/
-swapon "$SWAP_AREA"
-
 sfdisk "$SDB_BLOCK" <<EOF
 label: gpt
 device: $SDB_BLOCK
@@ -61,8 +55,18 @@ unit: sectors
 1: size=+, type=home, name="Home Partition"
 EOF
 
+mkfs.fat -F32 "$BOOT_PARTITION"
+mkswap "$SWAP_AREA"
+mkfs.ext4 "$ROOT_PARTITION"
 mkfs.ext4 "$HOME_PARTITION"
-mount --mkdir "$HOME_PARTITION" /mnt/home/
+
+mkdir -pv /mnt/boot/ /mnt/home/
+chmod 700 /mnt/boot/
+
+mount "$ROOT_PARTITION" /mnt/
+mount -o uid=0,gid=0,fmask=0077,dmask=0077 "$BOOT_PARTITION" /mnt/boot/
+swapon "$SWAP_AREA"
+mount "$HOME_PARTITION" /mnt/home/
 
 
 # PACKAGES SECTION
@@ -100,8 +104,8 @@ printf 'LANG=en_US.UTF-8' > "$ETC/locale.conf"
 printf 'archlinux' > "$ETC/hostname"
 sed -i '/%wheel.*) ALL/s/^# //' "$ETC/sudoers"
 
-mkdir -pv "$PKGBUILDS"
-mv ../PKGBUILDs ./post-arch-install.sh "/mnt${PKGBUILDS}"
+mkdir -pv "$CHROOT_PKGBUILDS"
+mv ../PKGBUILDs/* ./post-arch-install.sh "$CHROOT_PKGBUILDS"
 
 arch-chroot /mnt /bin/bash -c "$(cat <<EOF
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
