@@ -4,7 +4,7 @@ set -euo pipefail
 
 # GLOBAL VARIABLES
 
-SDA_BLOCK="/dev/sda"
+SDA_BLOCK='/dev/sda'
 BOOT_PARTITION="${SDA_BLOCK}1"
 SWAP_AREA="${SDA_BLOCK}2"
 ROOT_PARTITION="${SDA_BLOCK}3"
@@ -12,12 +12,12 @@ ROOT_PARTITION="${SDA_BLOCK}3"
 USERNAME='opsrcode'
 USER_HOME="/mnt/home/$USERNAME"
 
-ETC=/mnt/etc
+ETC='/mnt/etc'
 CHROOT_UHOME="/home/$USERNAME"
-PKGBUILDS="/home/$USERNAME/.cache/builds"
+PKGBUILDS="$CHROOT_UHOME/.cache/builds"
 CHROOT_PKGBUILDS="/mnt${PKGBUILDS}"
 XINITRC="$USER_HOME/.xinitrc"
-LOADER_DIR=/mnt/boot/loader
+LOADER_DIR='/mnt/boot/loader'
 PID=$(
   blkid $ROOT_PARTITION | awk -F'PARTUUID=' '{print $2}' | sed 's/"//g'
 )
@@ -95,7 +95,7 @@ sed -i '/%wheel.*) ALL/s/^# //' "$ETC/sudoers"
 mkdir -pv "$CHROOT_PKGBUILDS"
 mv ../PKGBUILDs/* ./post-arch-install.sh "$CHROOT_PKGBUILDS"
 
-arch-chroot /mnt /bin/bash -c "$(cat <<EOF
+arch-chroot /mnt bash -c "$(cat <<EOF
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 hwclock --systohc
 locale-gen
@@ -107,8 +107,9 @@ echo "$USERNAME:f00b4r" | chpasswd
 bootctl install
 
 chown -R "$USERNAME:users" "$CHROOT_UHOME"
-chmod +x "$PKGBUILDS/*.sh"
+chmod 755 "$PKGBUILDS"/*.sh
 
+pacman -Syu
 sh "$PKGBUILDS/build.sh" "$USERNAME" dwm st dmenu ed
 EOF
 )"
