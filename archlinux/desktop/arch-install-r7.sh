@@ -88,6 +88,8 @@ mv ../PKGBUILDs/* ./post-arch-install.sh "$CHROOT_PKGBUILDS"
 
 arch-chroot /mnt bash -c "$(cat <<EOF
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+ln -sf /usr/lib/systemd/network/89-ethernet.network.example \
+       /etc/systemd/network/89-ethernet.network
 hwclock --systohc
 locale-gen
 

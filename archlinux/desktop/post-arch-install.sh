@@ -2,13 +2,6 @@
 
 set -euo pipefail
 
-cat <<EOF > /etc/systemd/network/20-wired.network
-[Match]
-Name=en*
-
-[Network]
-DHCP=yes
-EOF
 systemctl enable systemd-networkd.service
 systemctl start systemd-networkd.service
 
