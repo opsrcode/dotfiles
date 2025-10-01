@@ -58,7 +58,7 @@ mount -o uid=0,gid=0,fmask=0077,dmask=0077 "$BOOT_PARTITION" /mnt/boot/
 reflector --protocol https --age 6 --latest 20 --sort rate \
           --country Brazil --save /etc/pacman.d/mirrorlist
 
-pacstrap -K /mnt base base-devel linux linux-firmware-intel \
+pacstrap -K /mnt base base-devel linux linux-firmware-intel git \
                  xf86-video-intel intel-ucode networkmanager mesa \
                  polkit pipewire-pulse powertop terminus-font ufw \
                  brightnessctl vulkan-intel xorg-server xorg-xinit \
