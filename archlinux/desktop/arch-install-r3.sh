@@ -77,7 +77,7 @@ pacstrap -K /mnt base base-devel linux linux-firmware-amdgpu \
                  xf86-video-ati mesa polkit vulkan-radeon ufw \
                  terminus-font xorg-server xorg-xinit man-db man-pages \
                  alsa-lib pipewire pipewire-pulse pipewire-alsa \
-                 wireplumber
+                 wireplumber alsa-utils
 
 genfstab -U /mnt >> "$ETC/fstab"
 
