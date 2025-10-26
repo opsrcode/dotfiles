@@ -56,7 +56,8 @@ reflector --protocol https --age 6 --latest 20 --sort rate \
 pacstrap -K /mnt base base-devel linux linux-firmware-amdgpu \
                  linux-firmware-radeon xf86-video-amdgpu amd-ucode \
                  mesa vulkan-radeon polkit ufw terminus-font \
-                 xorg-server xorg-xinit man-db man-pages
+                 xorg-server xorg-xinit man-db man-pages alsa-lib \
+                 pipewire pipewire-pulse pipewire-alsa wireplumber
 
 genfstab -U /mnt >> "$ETC/fstab"
 
@@ -149,3 +150,4 @@ console-mode auto
 EOF
 
 umount -R /mnt
+
